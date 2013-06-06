@@ -1,0 +1,15 @@
+<!-- The contents of this file will be loaded for each web application -->
+<Context path="/aeebk" docBase="aeebk" reloadable="true">
+
+	<Resource 
+		name="jdbc/aeebk" 
+		auth="Container"
+        type="javax.sql.DataSource" 
+		username="aeebk" 
+		password="wovenware"
+        driverClassName="com.mysql.jdbc.Driver" 
+		url="jdbc:mysql://localhost:3306/aeebk"
+        maxActive="8" 
+		maxIdle="2"/>
+		
+</Context>

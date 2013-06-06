@@ -17,5 +17,10 @@ public class Constants {
 //		public static final String CONTENT = "com.wovenware.aee.breakdown.reporting.ContentBundle";
 	}
 	
+	public static class Services
+	{
+		public static final String JNDI_JDBC_APP = "jdbc/aeebk";
+	}
+	
 	private Constants() {}
 }
