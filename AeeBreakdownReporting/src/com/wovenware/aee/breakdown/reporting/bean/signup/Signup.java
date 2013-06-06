@@ -9,8 +9,16 @@ package com.wovenware.aee.breakdown.reporting.bean.signup;
  */
 
 import java.io.Serializable;
+import java.sql.Connection;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import com.wovenware.aee.breakdown.reporting.Constants;
+import com.wovenware.aee.breakdown.reporting.db.dao.UsersDAO;
+import com.wovenware.aee.breakdown.reporting.db.dao.to.UsersTO;
+import com.wovenware.aee.breakdown.reporting.util.ConnectionUtil;
 
 @ManagedBean
 @SessionScoped
@@ -64,16 +72,49 @@ public class Signup implements Serializable {
         return _password;
     }
  
-    public void save ()
-    {
+    public void save () {
+    	Connection connection = null;
     	try {
 	    	_feedback = validateForm();
 	    	
-	    	if(_feedback.isEmpty()) {
+	    	if(_feedback == null) {
+	    		connection = ConnectionUtil.createConnection(
+	    				Constants.Services.JNDI_JDBC_APP, false);
 	    		
+	    		UsersTO usersTO = new UsersTO();
+	    		usersTO.setName(_name);
+	    		usersTO.setPkUserId(_email);
+	    		usersTO.setPhone(_telephone);
+	    		//usersTO.setSmsInd(null);
+	    		//usersTO.setPassword(_password);
+	    		
+	    		UsersDAO usersDAO = new UsersDAO(connection);
+	    		//usersDAO.create(usersTO);
+	    		
+	    		connection.commit();
+	    		
+	    		FacesContext.getCurrentInstance().getExternalContext().redirect("signup.jsf");
 	    	}
     	} catch(Exception e) {
     		_feedback = e.getMessage();
+    		
+    		try {
+    			if(connection != null && !connection.isClosed()) {
+    				connection.rollback();
+    			}
+    		} catch (Exception e1) {
+    			// Do nothing...
+    		}
+    	} finally {
+    		try {
+    			if(connection != null && !connection.isClosed()) {
+    				connection.close();
+    			}
+    		} catch (Exception e) {
+    			// Do nothing...
+    		} finally {
+    			connection = null;
+    		}
     	}
     }
     
