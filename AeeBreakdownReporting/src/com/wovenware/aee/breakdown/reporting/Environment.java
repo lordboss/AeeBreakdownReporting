@@ -4,6 +4,13 @@ import java.util.PropertyResourceBundle;
 
 import com.wovenware.aee.breakdown.reporting.Constants.Bundles;
 
+/**
+ * <i>Environment Settings.</i>
+ * 
+ * Wovenware, Inc 2013
+ * Created on June 06, 2013
+ * @author Alberto Aresti, Nelson Perez
+ */
 public class Environment
 {
 	private static Environment _theInstance = null;
