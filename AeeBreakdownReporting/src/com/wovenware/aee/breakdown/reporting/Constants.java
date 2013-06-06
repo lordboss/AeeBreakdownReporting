@@ -1,5 +1,12 @@
 package com.wovenware.aee.breakdown.reporting;
 
+/**
+ * <i>App Constants.</i>
+ * 
+ * Wovenware, Inc 2013
+ * Created on June 06, 2013
+ * @author Alberto Aresti, Nelson Perez
+ */
 public class Constants {
 	
 	public static class Bundles
