@@ -120,4 +120,90 @@ public class UsersDAO
 			}
 		}
 	}
+	
+	public void update( UsersTO userTO )
+			throws Exception
+	{
+		ResultSet rs = null;
+		PreparedStatement pStmt = null;
+		
+		final String SELECT_SQL =
+				"UPDATE `aeebk`.`users` SET `NAME` = ?, `PHONE` = ?, `SMS_IND` = ? " +
+				"WHERE `PK_USER_ID` = ? ";
+		
+		try
+		{
+			pStmt = this._conn.prepareStatement( SELECT_SQL );
+			
+			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
+			
+			int i = 1;
+		
+			// Set
+			pStmt.setString(i++, userTO.getName());
+			_log.finest( "NAME[" + userTO.getName() + "]" );
+			pStmt.setString(i++, userTO.getPhone());
+			_log.finest( "PHONE[" + userTO.getPhone() + "]" );
+			pStmt.setString(i++, userTO.getSmsInd());
+			_log.finest( "SMS_IND[" + userTO.getSmsInd() + "]" );
+			
+			// Where
+			pStmt.setString(i++, userTO.getPkUserId());
+			_log.finest( "PK_USER_ID[" + userTO.getPkUserId() + "]" );
+			
+//			int cnt = 
+					pStmt.executeUpdate();
+		}
+		finally
+		{
+			if ( rs != null )
+			{
+				rs.close();
+			}
+			
+			if ( pStmt != null && ! pStmt.isClosed() )
+			{
+				pStmt.close();
+			}
+		}
+	}
+	
+	public void delete( UsersTO userTO )
+			throws Exception
+	{
+		ResultSet rs = null;
+		PreparedStatement pStmt = null;
+		
+		final String SELECT_SQL =
+				"DELETE FROM `aeebk`.`users` " +
+				"WHERE `PK_USER_ID` = ? ";
+		
+		try
+		{
+			pStmt = this._conn.prepareStatement( SELECT_SQL );
+			
+			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
+			
+			int i = 1;
+		
+			// Where
+			pStmt.setString(i++, userTO.getPkUserId());
+			_log.finest( "PK_USER_ID[" + userTO.getPkUserId() + "]" );
+			
+//			int cnt = 
+					pStmt.executeUpdate();
+		}
+		finally
+		{
+			if ( rs != null )
+			{
+				rs.close();
+			}
+			
+			if ( pStmt != null && ! pStmt.isClosed() )
+			{
+				pStmt.close();
+			}
+		}
+	}
 }
