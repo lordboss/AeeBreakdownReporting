@@ -8,8 +8,7 @@ CREATE TABLE `bks_archived` (
   `STATUS` varchar(100) DEFAULT NULL,
   `RPTD_LAST_UPDATE_TS` varchar(35) DEFAULT NULL,
   `OPEN_TS` datetime NOT NULL,
-  `CLOSE_TS` datetime NOT NULL,
-  PRIMARY KEY (`CITY`,`AREA`)
+  `CLOSE_TS` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
 CREATE TABLE `bks_reported` (

@@ -39,7 +39,7 @@ public class EmailUtil
 		Message message = new MimeMessage(getSession());
 
 		message.addRecipient(RecipientType.TO, new InternetAddress(toAddress));
-		message.addFrom(new InternetAddress[] { new InternetAddress(fromAddress) });
+		message.addFrom(new InternetAddress[] { new InternetAddress(tmpFromAddress) });
 		message.setSubject(subject);
 		message.setContent(body, DFLT_MIME_TYPE);
 

@@ -12,6 +12,7 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+import javax.management.Notification;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,7 @@ import com.wovenware.aee.breakdown.reporting.db.dao.BksArchivedDAO;
 import com.wovenware.aee.breakdown.reporting.db.dao.BksReportedDAO;
 import com.wovenware.aee.breakdown.reporting.db.dao.to.BksArchivedTO;
 import com.wovenware.aee.breakdown.reporting.db.dao.to.BksReportedTO;
+import com.wovenware.aee.breakdown.reporting.util.BreakdownNotifierUtil;
 import com.wovenware.aee.breakdown.reporting.util.ConnectionUtil;
 
 /**
@@ -145,6 +147,7 @@ public class BreakdownServlet extends HttpServlet
 				BksReportedTO bksReportedTO = null;
 				Environment env = Environment.Instance();
 				Date now = new Date();
+				BreakdownNotifierUtil bnu = new BreakdownNotifierUtil();
 				
 				try
 				{
@@ -198,13 +201,13 @@ public class BreakdownServlet extends HttpServlet
 														
 								if ( prevMap.containsKey( key ) )
 								{
+									processedKeys.add( key );
+									
 									// If previously reported, remove from prev list and do nothing.
 									prevMap.remove( key );
 								}
 								else 
-								{
-									// TODO: If not yet reported, push raised event and add to list.
-									
+								{												
 									// Add for future reference.
 									bksReportedTO = new BksReportedTO();
 									
@@ -220,12 +223,18 @@ public class BreakdownServlet extends HttpServlet
 										// ASSUMPTION:  Latest item in list is latest item in terms of event time (when status was updated).
 										bksReportedDAO.delete( bksReportedTO );
 									}
+									else
+									{
+										processedKeys.add( key );
+										
+										// If not yet reported, push raised event and add to list.
+										bnu.push( conn, bksReportedTO, "Averias AEE:  Averia reportada." );
+										conn.commit();
+									}
 									
 									bksReportedDAO.create( bksReportedTO );
 									conn.commit();
-								}
-
-								processedKeys.add( key );
+								}	
 							}
 						}
 					}
@@ -237,7 +246,9 @@ public class BreakdownServlet extends HttpServlet
 						key = it.next();
 						bksReportedTO = prevMap.get( key );
 						
-						// TODO: Push cleared event						
+						// Push cleared event						
+						bnu.push( conn, bksReportedTO, "Averias AEE:  No hay mas averias reportadas." );
+						conn.commit();
 						
 						// and move to archive
 						BksArchivedTO bksArchivedTO = new BksArchivedTO();
