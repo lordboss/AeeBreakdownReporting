@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+encoding//src/com/prepa/breakdown/persistence/xsd/BreakdownArea.java=UTF-8
+encoding//src/com/prepa/breakdown/persistence/xsd/BreakdownSummary.java=UTF-8
+encoding//src/com/prepa/breakdown/ws/BreakdownReport.java=UTF-8
+encoding//src/com/prepa/breakdown/ws/BreakdownReportLocator.java=UTF-8
+encoding//src/com/prepa/breakdown/ws/BreakdownReportPortType.java=UTF-8
+encoding//src/com/prepa/breakdown/ws/BreakdownReportSoap11BindingStub.java=UTF-8
