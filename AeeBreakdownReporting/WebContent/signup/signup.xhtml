@@ -18,7 +18,8 @@
 	    
 	    <!-- JS -->
 	    <script src="../frameworks/jquery/jquery-1.9.1.js"></script>
-	    <script src="../frameworks/bootstrap/js/bootstrap.min.js"></script>
+	    <script src="../frameworks/bootstrap/js/bootstrap.js"></script>
+	    <script src="../js/global.js"></script>
     </h:head>
     <h:body>
     	<h:form>
@@ -34,49 +35,53 @@
 	  						<h3>Sign Up</h3>
 	  					</div>
 	  				</div>
-	  				<div class="row-fluid feedback">
-	  					<div class="span12">
-	  						<div class="alert alert-block">
-								<button type="button" class="close" data-dismiss="alert">&times;</button>
-								<h:outputText id="feedback" value="#{signup.feedback}" />
-							</div>
-	  					</div>
-	  				</div>
 					<div class="row-fluid form-field">
 						<div class="span4 form-label">Nombre:</div>
-						<div class="span8"><h:inputText id="name" type="text" value="#{signup.name}" /></div>
+						<div class="span8"><h:inputText id="name" value="#{signup.name}" /></div>
 					</div>
 					<div class="row-fluid form-field">
 						<div class="span4 form-label">Email:</div>
-						<div class="span8"><h:inputText id="email" type="email" value="#{signup.email}" /></div>
+						<div class="span8"><h:inputText id="email" value="#{signup.email}" /></div>
 					</div>
 					<div class="row-fluid form-field">
 						<div class="span4 form-label">Tel&eacute;fono:</div>
-						<div class="span8"><h:inputText id="telephone" type="tel" value="#{signup.telephone}" /></div>
+						<div class="span8"><h:inputText id="telephone" value="#{signup.telephone}" /></div>
 					</div>
 					<div class="row-fluid form-field">
 						<div class="span4 form-label">Contrase&ntilde;a:</div>
-						<div class="span8"><h:inputText id="password" type="password" value="#{signup.password}" /></div>
+						<div class="span8"><h:inputSecret id="password" value="#{signup.password}" /></div>
 					</div>
-	  			</div>
-	  			<div class="span3">
-	  			test
-	  			</div>
-	  		</div>
-	  		<div class="row-fluid">
-	  			<div class="span10 offset1 page-bottom">
-	  				<div class="row-fluid">
-	  					<div class="span9 offset3">
-	  						<h:commandButton id="signup" class="btn btn-large btn-primary" value="Sign Up" > 
+					<div class="row-fluid form-action">
+						<div class="span8 offset4">
+							<h:commandButton id="signup" class="btn btn-large btn-primary" value="Sign Up" > 
 							    <f:ajax event="click" 
 							    	execute="name email telephone password" 
 							    	listener="#{signup.save}" 
 							    	render="name email telephone password feedback"/>
 							</h:commandButton>
-	  					</div>
-	  				</div>
+							<h:outputText class="feedback" id="feedback" value="#{signup.feedback}"></h:outputText>
+						</div>
+					</div>
 	  			</div>
-	  		</div>
+	  			<div class="span3">
+					<div class="row-fluid">
+						<div class="span12 section-top">
+							<h3>Instructions</h3>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+							<p>Welcome!</p>
+							<p>Please fill all the fields and click the Sign up button.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span10 offset1 page-bottom">
+					Wovenware - Tech Summit Hackathon 2013
+				</div>
+			</div>
 		</h:form>
     </h:body>
 </html>

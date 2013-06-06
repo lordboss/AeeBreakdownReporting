@@ -9,7 +9,6 @@ package com.wovenware.aee.breakdown.reporting.bean.signup;
  */
 
 import java.io.Serializable;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -67,10 +66,22 @@ public class Signup implements Serializable {
  
     public void save ()
     {
-    	if(_name.isEmpty()) {
-    		_feedback = "warning";
-    	} else {
-    		_feedback = "OK";
+    	try {
+	    	_feedback = validateForm();
+	    	
+	    	if(_feedback.isEmpty()) {
+	    		
+	    	}
+    	} catch(Exception e) {
+    		_feedback = e.getMessage();
     	}
+    }
+    
+    public String validateForm() {
+    	String message = null;
+    	
+    	// TODO: Validations...
+    	
+    	return message;
     }
 }
