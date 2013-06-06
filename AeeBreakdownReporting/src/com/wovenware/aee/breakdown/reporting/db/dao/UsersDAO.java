@@ -81,7 +81,6 @@ public class UsersDAO
 	public void create( UsersTO userTO )
 			throws Exception
 	{
-		ResultSet rs = null;
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
@@ -109,11 +108,6 @@ public class UsersDAO
 		}
 		finally
 		{
-			if ( rs != null )
-			{
-				rs.close();
-			}
-			
 			if ( pStmt != null && ! pStmt.isClosed() )
 			{
 				pStmt.close();
@@ -124,7 +118,6 @@ public class UsersDAO
 	public void update( UsersTO userTO )
 			throws Exception
 	{
-		ResultSet rs = null;
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
@@ -156,11 +149,6 @@ public class UsersDAO
 		}
 		finally
 		{
-			if ( rs != null )
-			{
-				rs.close();
-			}
-			
 			if ( pStmt != null && ! pStmt.isClosed() )
 			{
 				pStmt.close();
@@ -171,7 +159,6 @@ public class UsersDAO
 	public void delete( UsersTO userTO )
 			throws Exception
 	{
-		ResultSet rs = null;
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
@@ -195,11 +182,6 @@ public class UsersDAO
 		}
 		finally
 		{
-			if ( rs != null )
-			{
-				rs.close();
-			}
-			
 			if ( pStmt != null && ! pStmt.isClosed() )
 			{
 				pStmt.close();
