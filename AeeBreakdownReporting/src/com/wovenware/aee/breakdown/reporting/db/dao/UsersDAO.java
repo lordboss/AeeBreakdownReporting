@@ -85,9 +85,8 @@ public class UsersDAO
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
-				"SELECT `u`.`PK_USER_ID`, `u`.`NAME`, `u`.`PHONE`, `u`.`SMS_IND` " +
-				"FROM `aeebk`.`users` u " +
-				"where u.PK_USER_ID = ? ";
+				"INSERT INTO `aeebk`.`users` (`PK_USER_ID`,`NAME`,`PHONE`,`SMS_IND`) " +
+				"VALUES (?,?,?,?)";
 		
 		try
 		{
@@ -96,10 +95,17 @@ public class UsersDAO
 			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
 			
 			int i = 1;
-//				pStmt.setString(i++, pkUserId);
-//				_log.finest( "PK_USER_ID[" + pkUserId + "]" );
-					
-			rs = pStmt.executeQuery();
+			pStmt.setString(i++, userTO.getPkUserId());
+			_log.finest( "PK_USER_ID[" + userTO.getPkUserId() + "]" );
+			pStmt.setString(i++, userTO.getName());
+			_log.finest( "NAME[" + userTO.getName() + "]" );
+			pStmt.setString(i++, userTO.getPhone());
+			_log.finest( "PHONE[" + userTO.getPhone() + "]" );
+			pStmt.setString(i++, userTO.getSmsInd());
+			_log.finest( "SMS_IND[" + userTO.getSmsInd() + "]" );
+			
+//			int cnt = 
+					pStmt.executeUpdate();
 		}
 		finally
 		{
