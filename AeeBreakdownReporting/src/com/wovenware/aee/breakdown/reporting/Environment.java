@@ -15,11 +15,13 @@ public class Environment
 {
 	private static Environment _theInstance = null;
 
-	private String _emailServer;
-	private String _emailPort;
-	private String _emailUsername;
-	private String _emailPassword;
-	private String _emailDefaultSender;
+	private String _wsAeeBrkEndpoint = null;;
+	
+	private String _emailServer = null;
+	private String _emailPort = null;
+	private String _emailUsername = null;
+	private String _emailPassword = null;
+	private String _emailDefaultSender = null;
 	
 	/**
 	 * @return the _emailServer
@@ -101,6 +103,14 @@ public class Environment
 		this._emailDefaultSender = _emailDefaultSender;
 	}
 
+	public String getWsAeeBrkEndpoint() {
+		return _wsAeeBrkEndpoint;
+	}
+	
+	public void setWsAeeBrkEndpoint(String wsAeeBrkEndpoint) {
+		this._wsAeeBrkEndpoint = wsAeeBrkEndpoint;
+	}
+
 	/**
 	 * Get Environment Instance. Singleton implementation.
 	 * 
@@ -119,6 +129,9 @@ public class Environment
 	private Environment()
 	{
 		PropertyResourceBundle ep = (PropertyResourceBundle)PropertyResourceBundle.getBundle(Bundles.ENVIRONMENT);
+		
+		// WS AEE Breakdwon Properties
+		_wsAeeBrkEndpoint = ep.getString("ws_aaebrk_endpoint");
 		
 		// Email Properties
 		_emailServer = ep.getString("email_server");

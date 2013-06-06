@@ -15,7 +15,7 @@ public class BksArchivedTO
 	private String city = null;
 	private String area = null;
 	private String status = null;
-	private Date rptdLastUpdateTs = null;
+	private String rptdLastUpdateTs = null;
 	private Date openTs = null;
 	private Date closeTs = null;
 		
@@ -38,10 +38,10 @@ public class BksArchivedTO
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Date getRptdLastUpdateTs() {
+	public String getRptdLastUpdateTs() {
 		return rptdLastUpdateTs;
 	}
-	public void setRptdLastUpdateTs(Date rptdLastUpdateTs) {
+	public void setRptdLastUpdateTs(String rptdLastUpdateTs) {
 		this.rptdLastUpdateTs = rptdLastUpdateTs;
 	}
 	public Date getOpenTs() {

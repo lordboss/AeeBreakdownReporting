@@ -69,7 +69,7 @@ public class BksReportedDAO
 				bksReportedTO.setCity(				rs.getString(1));
 				bksReportedTO.setArea(				rs.getString(2));
 				bksReportedTO.setStatus(			rs.getString(3));
-				bksReportedTO.setRptdLastUpdateTs(	rs.getTimestamp(4));
+				bksReportedTO.setRptdLastUpdateTs(	rs.getString(4));
 				bksReportedTO.setOpenTs(			rs.getTimestamp(5));
 			}
 		}
@@ -121,7 +121,7 @@ public class BksReportedDAO
 					bksReportedTO.setCity(				rs.getString(1));
 					bksReportedTO.setArea(				rs.getString(2));
 					bksReportedTO.setStatus(			rs.getString(3));
-					bksReportedTO.setRptdLastUpdateTs(	rs.getTimestamp(4));
+					bksReportedTO.setRptdLastUpdateTs(	rs.getString(4));
 					bksReportedTO.setOpenTs(			rs.getTimestamp(5));
 					
 					list.add( bksReportedTO );
@@ -165,15 +165,7 @@ public class BksReportedDAO
 			_log.finest( "AREA[" + bksReportedTO.getArea() + "]" );
 			pStmt.setString(i++, bksReportedTO.getStatus());
 			_log.finest( "STATUS[" + bksReportedTO.getStatus() + "]" );
-			if ( bksReportedTO.getRptdLastUpdateTs() != null )
-			{
-				pStmt.setTimestamp(i++, 
-						new java.sql.Timestamp( bksReportedTO.getRptdLastUpdateTs().getTime() ) );
-			}
-			else
-			{
-				pStmt.setTimestamp(i++, null);
-			}
+			pStmt.setString(i++, bksReportedTO.getRptdLastUpdateTs());
 			_log.finest( "RPTD_LAST_UPDATE_TS[" + bksReportedTO.getRptdLastUpdateTs() + "]" );
 			
 			if( bksReportedTO.getOpenTs() != null )

@@ -63,7 +63,7 @@ public class BksArchivedDAO
 					bksArchivedTO.setCity(				rs.getString(1));
 					bksArchivedTO.setArea(				rs.getString(2));
 					bksArchivedTO.setStatus(			rs.getString(3));
-					bksArchivedTO.setRptdLastUpdateTs(	rs.getTimestamp(4));
+					bksArchivedTO.setRptdLastUpdateTs(	rs.getString(4));
 					bksArchivedTO.setOpenTs(			rs.getTimestamp(5));
 					bksArchivedTO.setCloseTs(			rs.getTimestamp(5));
 					
@@ -108,15 +108,7 @@ public class BksArchivedDAO
 			_log.finest( "AREA[" + bksArchivedTO.getArea() + "]" );
 			pStmt.setString(i++, bksArchivedTO.getStatus());
 			_log.finest( "STATUS[" + bksArchivedTO.getStatus() + "]" );
-			if ( bksArchivedTO.getRptdLastUpdateTs() != null )
-			{
-				pStmt.setTimestamp(i++, 
-						new java.sql.Timestamp( bksArchivedTO.getRptdLastUpdateTs().getTime() ) );
-			}
-			else
-			{
-				pStmt.setTimestamp(i++, null);
-			}
+			pStmt.setString(i++, bksArchivedTO.getRptdLastUpdateTs());
 			_log.finest( "RPTD_LAST_UPDATE_TS[" + bksArchivedTO.getRptdLastUpdateTs() + "]" );
 			
 			if( bksArchivedTO.getOpenTs() != null )

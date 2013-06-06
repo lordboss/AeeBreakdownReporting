@@ -36,7 +36,7 @@ public class UsersDAO
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
-				"SELECT `u`.`PK_USER_ID`, `u`.`NAME`, `u`.`PHONE`, `u`.`SMS_IND` " +
+				"SELECT `u`.`PK_USER_ID`, `u`.`PASSWORD`, `u`.`NAME`, `u`.`PHONE`, `u`.`SMS_IND` " +
 				"FROM `aeebk`.`users` u " +
 				"where u.PK_USER_ID = ? ";
 		
@@ -57,9 +57,10 @@ public class UsersDAO
 				userTO = new UsersTO();
 				
 				userTO.setPkUserId(	rs.getString(1));
-				userTO.setName(		rs.getString(2));
-				userTO.setPhone(	rs.getString(3));
-				userTO.setSmsInd(	rs.getString(4));
+				userTO.setPassword(	rs.getString(2));
+				userTO.setName(		rs.getString(3));
+				userTO.setPhone(	rs.getString(4));
+				userTO.setSmsInd(	rs.getString(5));
 			}
 		}
 		finally
@@ -84,8 +85,8 @@ public class UsersDAO
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
-				"INSERT INTO `aeebk`.`users` (`PK_USER_ID`,`NAME`,`PHONE`,`SMS_IND`) " +
-				"VALUES (?,?,?,?)";
+				"INSERT INTO `aeebk`.`users` (`PK_USER_ID`,`PASSWORD`,`NAME`,`PHONE`,`SMS_IND`) " +
+				"VALUES (?,?,?,?,?)";
 		
 		try
 		{
@@ -96,6 +97,8 @@ public class UsersDAO
 			int i = 1;
 			pStmt.setString(i++, userTO.getPkUserId());
 			_log.finest( "PK_USER_ID[" + userTO.getPkUserId() + "]" );
+			pStmt.setString(i++, userTO.getPassword());
+			_log.finest( "PASSWORD[" + userTO.getPassword() + "]" );
 			pStmt.setString(i++, userTO.getName());
 			_log.finest( "NAME[" + userTO.getName() + "]" );
 			pStmt.setString(i++, userTO.getPhone());
@@ -121,7 +124,7 @@ public class UsersDAO
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
-				"UPDATE `aeebk`.`users` SET `NAME` = ?, `PHONE` = ?, `SMS_IND` = ? " +
+				"UPDATE `aeebk`.`users` SET `PASSWORD` = ?, `NAME` = ?, `PHONE` = ?, `SMS_IND` = ? " +
 				"WHERE `PK_USER_ID` = ? ";
 		
 		try
@@ -133,6 +136,8 @@ public class UsersDAO
 			int i = 1;
 		
 			// Set
+			pStmt.setString(i++, userTO.getPassword());
+			_log.finest( "PASSWORD[" + userTO.getPassword() + "]" );
 			pStmt.setString(i++, userTO.getName());
 			_log.finest( "NAME[" + userTO.getName() + "]" );
 			pStmt.setString(i++, userTO.getPhone());

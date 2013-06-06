@@ -30,4 +30,14 @@
   <listener>
     <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
   </listener>
+  
+    <servlet>
+        <servlet-name>breakdownServlet</servlet-name>
+        <servlet-class>com.wovenware.aee.breakdown.reporting.servlets.BreakdownServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+	<servlet-mapping>
+        <servlet-name>breakdownServlet</servlet-name>
+        <url-pattern>/brkpush</url-pattern>
+    </servlet-mapping>
 </web-app>

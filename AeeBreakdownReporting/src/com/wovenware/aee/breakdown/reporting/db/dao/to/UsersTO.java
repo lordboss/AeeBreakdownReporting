@@ -11,6 +11,7 @@ public class UsersTO
 {
 	// Attributes...
 	private String pkUserId = null;
+	private String password = null;
 	private String name = null;
 	private String phone = null;
 	private String smsInd = null;
@@ -21,6 +22,12 @@ public class UsersTO
 	}
 	public void setPkUserId(String pkUserId) {
 		this.pkUserId = pkUserId;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getName() {
 		return name;
