@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <title>Aver&iacute;as AEE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <!-- CSS -->
+	    <link href="../frameworks/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+	    <link href="../frameworks/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+	    <link href="../css/global.css" rel="stylesheet" media="screen" />
+	    
+	    <!-- JS -->
+	    <script src="../frameworks/jquery/jquery-1.9.1.js"></script>
+	    <script src="../frameworks/bootstrap/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+    	<h:form>
+	  		<div class="row-fluid">
+	  			<div class="span10 offset1 page-top">
+	  				<h1>Aver&iacute;as AEE</h1>
+	  			</div>
+	  		</div>
+		  	<div class="row-fluid">
+	  			<div class="span7 offset1">
+	  				<div class="row-fluid">
+	  					<div class="span12 section-top">
+	  						<h3>Sign Up</h3>
+	  					</div>
+	  				</div>
+	  				<div class="row-fluid feedback">
+	  					<div class="span12">
+	  						<div class="alert alert-block">
+								<button type="button" class="close" data-dismiss="alert">&times;</button>
+								<h:outputText id="feedback" value="#{signup.feedback}" />
+							</div>
+	  					</div>
+	  				</div>
+					<div class="row-fluid form-field">
+						<div class="span4 form-label">Nombre:</div>
+						<div class="span8"><h:inputText id="name" type="text" value="#{signup.name}" /></div>
+					</div>
+					<div class="row-fluid form-field">
+						<div class="span4 form-label">Email:</div>
+						<div class="span8"><h:inputText id="email" type="email" value="#{signup.email}" /></div>
+					</div>
+					<div class="row-fluid form-field">
+						<div class="span4 form-label">Tel&eacute;fono:</div>
+						<div class="span8"><h:inputText id="telephone" type="tel" value="#{signup.telephone}" /></div>
+					</div>
+					<div class="row-fluid form-field">
+						<div class="span4 form-label">Contrase&ntilde;a:</div>
+						<div class="span8"><h:inputText id="password" type="password" value="#{signup.password}" /></div>
+					</div>
+	  			</div>
+	  			<div class="span3">
+	  			test
+	  			</div>
+	  		</div>
+	  		<div class="row-fluid">
+	  			<div class="span10 offset1 page-bottom">
+	  				<div class="row-fluid">
+	  					<div class="span9 offset3">
+	  						<h:commandButton id="signup" class="btn btn-large btn-primary" value="Sign Up" > 
+							    <f:ajax event="click" 
+							    	execute="name email telephone password" 
+							    	listener="#{signup.save}" 
+							    	render="name email telephone password feedback"/>
+							</h:commandButton>
+	  					</div>
+	  				</div>
+	  			</div>
+	  		</div>
+		</h:form>
+    </h:body>
+</html>

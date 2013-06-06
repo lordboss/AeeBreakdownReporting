@@ -1,0 +1,63 @@
+.page-top
+{
+	border-bottom: 1px solid #E0E0E0;
+	margin: 10px 0;
+	padding: 10px 0;
+}
+
+.page-bottom
+{
+	border-top: 1px solid #E0E0E0;
+	margin: 10px 0;
+	padding: 10px 0;
+}
+
+.section-top
+{
+	border-bottom: 3px solid #E0E0E0;
+	margin-bottom: 15px;
+	color: #E0E0E0;
+}
+
+.section-top h3
+{
+	margin: 0;
+}
+
+.section-bottom
+{
+	border-top: 3px solid #E0E0E0;
+	padding-top: 15px;
+}
+
+.form-field
+{
+	margin: 10px;
+}
+
+.form-field .form-label
+{
+	padding-top: 10px;
+	text-align: right;
+	font-size: 18px;
+}
+
+.form-field input,
+.form-field textarea
+{
+	width: 90%;
+	height: auto;
+	padding: 5px;
+	font-size: 22px;
+}
+
+.signup
+{
+	border: 1px solid #E0E0E0;
+	padding: 20px;
+}
+
+.feedback
+{
+	display: none;
+}
