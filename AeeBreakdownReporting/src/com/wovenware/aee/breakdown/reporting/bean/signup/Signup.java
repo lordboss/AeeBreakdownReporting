@@ -89,7 +89,7 @@ public class Signup implements Serializable {
 	    		//usersTO.setPassword(_password);
 	    		
 	    		UsersDAO usersDAO = new UsersDAO(connection);
-	    		//usersDAO.create(usersTO);
+	    		usersDAO.create(usersTO);
 	    		
 	    		connection.commit();
 	    		
