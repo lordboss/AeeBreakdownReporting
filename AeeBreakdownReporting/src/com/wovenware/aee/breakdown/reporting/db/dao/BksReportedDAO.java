@@ -89,59 +89,118 @@ public class BksReportedDAO
 		return bksReportedTO;
 	}
 	
+	public BksReportedTO find( String userId )
+			throws Exception
+	{
+		BksReportedTO bksReportedTO = null;
+		ResultSet rs = null;
+		PreparedStatement pStmt = null;
+		
+		final String SELECT_SQL =
+				"SELECT " + 
+					"`br`.`CITY`, " +
+					"`br`.`AREA`, " +
+					"`br`.`STATUS`, " +
+					"`br`.`RPTD_LAST_UPDATE_TS`, " +
+					"`br`.`OPEN_TS` " +
+					"FROM `aeebk`.`bks_reported` br " +
+					"INNER JOIN `aeebk`.`bk_2_users` b2u " +
+						"ON `b2u`.`CITY` = `br`.`CITY` " +
+							"AND `b2u`.`AREA` = `br`.`AREA` " +
+					"WHERE `b2u`.`FK_USER_ID` = ? ";
+		
+		try
+		{
+			pStmt = this._conn.prepareStatement( SELECT_SQL );
+			
+			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
+			
+			int i = 1;
+			pStmt.setString(i++, userId);
+			_log.finest( "FK_USER_ID[" + userId + "]" );
+			
+			rs = pStmt.executeQuery();
+			
+			if ( rs != null && rs.next() )
+			{
+				bksReportedTO = new BksReportedTO();
+				
+				bksReportedTO.setCity(				rs.getString(1));
+				bksReportedTO.setArea(				rs.getString(2));
+				bksReportedTO.setStatus(			rs.getString(3));
+				bksReportedTO.setRptdLastUpdateTs(	rs.getString(4));
+				bksReportedTO.setOpenTs(			rs.getTimestamp(5));
+			}
+		}
+		finally
+		{
+			if ( rs != null )
+			{
+				rs.close();
+			}
+			
+			if ( pStmt != null && ! pStmt.isClosed() )
+			{
+				pStmt.close();
+			}
+		}
+		
+		return bksReportedTO;
+	}
+	
 	public List<BksReportedTO> find()
 			throws Exception
+	{
+		List<BksReportedTO> list = new ArrayList<>();
+		BksReportedTO bksReportedTO = null;
+		ResultSet rs = null;
+		PreparedStatement pStmt = null;
+		
+		final String SELECT_SQL =
+				"SELECT " + 
+					"`br`.`CITY`, " +
+					"`br`.`AREA`, " +
+					"`br`.`STATUS`, " +
+					"`br`.`RPTD_LAST_UPDATE_TS`, " +
+					"`br`.`OPEN_TS` " +
+					"FROM `aeebk`.`bks_reported` br ";
+		
+		try
 		{
-			List<BksReportedTO> list = new ArrayList<>();
-			BksReportedTO bksReportedTO = null;
-			ResultSet rs = null;
-			PreparedStatement pStmt = null;
+			pStmt = this._conn.prepareStatement( SELECT_SQL );
 			
-			final String SELECT_SQL =
-					"SELECT " + 
-						"`br`.`CITY`, " +
-						"`br`.`AREA`, " +
-						"`br`.`STATUS`, " +
-						"`br`.`RPTD_LAST_UPDATE_TS`, " +
-						"`br`.`OPEN_TS` " +
-						"FROM `aeebk`.`bks_reported` br ";
+			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
 			
-			try
+			rs = pStmt.executeQuery();
+			
+			while ( rs != null && rs.next() )
 			{
-				pStmt = this._conn.prepareStatement( SELECT_SQL );
+				bksReportedTO = new BksReportedTO();
 				
-				_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
+				bksReportedTO.setCity(				rs.getString(1));
+				bksReportedTO.setArea(				rs.getString(2));
+				bksReportedTO.setStatus(			rs.getString(3));
+				bksReportedTO.setRptdLastUpdateTs(	rs.getString(4));
+				bksReportedTO.setOpenTs(			rs.getTimestamp(5));
 				
-				rs = pStmt.executeQuery();
-				
-				while ( rs != null && rs.next() )
-				{
-					bksReportedTO = new BksReportedTO();
-					
-					bksReportedTO.setCity(				rs.getString(1));
-					bksReportedTO.setArea(				rs.getString(2));
-					bksReportedTO.setStatus(			rs.getString(3));
-					bksReportedTO.setRptdLastUpdateTs(	rs.getString(4));
-					bksReportedTO.setOpenTs(			rs.getTimestamp(5));
-					
-					list.add( bksReportedTO );
-				}
+				list.add( bksReportedTO );
 			}
-			finally
-			{
-				if ( rs != null )
-				{
-					rs.close();
-				}
-				
-				if ( pStmt != null && ! pStmt.isClosed() )
-				{
-					pStmt.close();
-				}
-			}
-			
-			return list;
 		}
+		finally
+		{
+			if ( rs != null )
+			{
+				rs.close();
+			}
+			
+			if ( pStmt != null && ! pStmt.isClosed() )
+			{
+				pStmt.close();
+			}
+		}
+		
+		return list;
+	}
 	
 	public void create( BksReportedTO bksReportedTO )
 			throws Exception
