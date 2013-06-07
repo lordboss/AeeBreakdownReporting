@@ -89,10 +89,10 @@ public class BksReportedDAO
 		return bksReportedTO;
 	}
 	
-	public BksReportedTO find( String userId )
+	public List<BksReportedTO> find( String userId )
 			throws Exception
 	{
-		BksReportedTO bksReportedTO = null;
+		List<BksReportedTO> bksReportedTOList = new ArrayList<BksReportedTO>();
 		ResultSet rs = null;
 		PreparedStatement pStmt = null;
 		
@@ -121,15 +121,17 @@ public class BksReportedDAO
 			
 			rs = pStmt.executeQuery();
 			
-			if ( rs != null && rs.next() )
+			while ( rs != null && rs.next() )
 			{
-				bksReportedTO = new BksReportedTO();
+				BksReportedTO bksReportedTO = new BksReportedTO();
 				
 				bksReportedTO.setCity(				rs.getString(1));
 				bksReportedTO.setArea(				rs.getString(2));
 				bksReportedTO.setStatus(			rs.getString(3));
 				bksReportedTO.setRptdLastUpdateTs(	rs.getString(4));
 				bksReportedTO.setOpenTs(			rs.getTimestamp(5));
+				
+				bksReportedTOList.add(bksReportedTO);
 			}
 		}
 		finally
@@ -145,7 +147,7 @@ public class BksReportedDAO
 			}
 		}
 		
-		return bksReportedTO;
+		return bksReportedTOList;
 	}
 	
 	public List<BksReportedTO> find()

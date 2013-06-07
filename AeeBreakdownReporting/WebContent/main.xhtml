@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <title>Aver&iacute;as AEE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <!-- CSS -->
+	    <link href="frameworks/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
+	    <link href="frameworks/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+	    <link href="css/global.css" rel="stylesheet" media="screen" />
+	    
+	    <!-- JS -->
+	    <script src="frameworks/jquery/jquery-1.9.1.js"></script>
+	    <script src="frameworks/bootstrap/js/bootstrap.js"></script>
+	    <script src="js/global.js"></script>
+    </h:head>
+    <h:body>
+    	<h:form rendered="#{main.onLoad}">
+	  		<div class="row-fluid">
+	  			<div class="span10 offset1 page-top">
+	  				<h1>Aver&iacute;as <span>AEE</span></h1>
+	  			</div>
+	  		</div>
+		  	<div class="row-fluid">
+	  			<div class="span7 offset1">
+	  				<div class="row-fluid">
+	  					<div class="span12 section-top">
+	  						<h3>Listado de Aver&iacute;as</h3>
+	  					</div>
+	  				</div>
+					<div class="row-fluid list">
+	  					<div class="span12">
+	  						<table class="table table-hover">
+	  							<tbody>
+	  								<h:outputText value="#{main.list}" escape="false"></h:outputText>
+		  						</tbody>
+		  					</table>
+		  				</div>
+		  			</div>
+	  			</div>
+	  			<div class="span3">
+					<div class="row-fluid">
+						<div class="span12 section-top">
+							<h3>Instrucciones</h3>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+							<p>Bienvenido!</p>
+							<p>Por favor entre su email y contrase&ntilde;a para entrar.</p>
+							<p>Si a&uacute;n no se ha registrado puede hacerlo <a href="signup.jsf">aqu&iacute;.</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span10 offset1 page-bottom">
+					<img src="img/wovenware-logo.png" alt="Wovenware" />
+					<br/>
+					Hackathon @ Puerto Rico Tech Summit 2013
+				</div>
+			</div>
+		</h:form>
+    </h:body>
+</html>
