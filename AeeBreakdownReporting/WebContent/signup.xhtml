@@ -66,13 +66,20 @@
 							<h:outputText id="passwordFeedback" value="#{signup.passwordFeedback}" escape="false"></h:outputText>
 						</div>
 					</div>
+					<div class="row-fluid form-field">
+						<div class="span3 form-label">Confirmar:</div>
+						<div class="span6"><h:inputSecret id="passwordConfirmation" value="#{signup.passwordConfirmation}" /></div>
+						<div class="span3 form-feedback">
+							<h:outputText id="passwordConfirmationFeedback" value="#{signup.passwordConfirmationFeedback}" escape="false"></h:outputText>
+						</div>
+					</div>
 					<div class="row-fluid form-action">
 						<div class="span9 offset3">
 							<h:commandButton id="signup" class="btn btn-large btn-primary" value="Registrar" > 
 							    <f:ajax event="click" 
-							    	execute="name email password" 
+							    	execute="name email password passwordConfirmation" 
 							    	listener="#{signup.save}" 
-							    	render="feedback name nameFeedback email emailFeedback password passwordFeedback"/>
+							    	render="feedback name nameFeedback email emailFeedback password passwordFeedback passwordConfirmation passwordConfirmationFeedback"/>
 							</h:commandButton>
 						</div>
 					</div>

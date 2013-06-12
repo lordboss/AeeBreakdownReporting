@@ -1,5 +1,13 @@
 package com.wovenware.aee.breakdown.reporting.util;
 
+/**
+ * <i>Feedback Utility.</i>
+ * 
+ * Wovenware, Inc 2013
+ * Created on June 06, 2013
+ * @author Nelson Perez
+ */
+
 public class FeedbackUtil {
 	private FeedbackUtil() {}
 	

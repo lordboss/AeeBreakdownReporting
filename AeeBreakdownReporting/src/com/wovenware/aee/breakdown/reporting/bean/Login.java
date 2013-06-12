@@ -19,6 +19,7 @@ import com.wovenware.aee.breakdown.reporting.Constants;
 import com.wovenware.aee.breakdown.reporting.db.dao.UsersDAO;
 import com.wovenware.aee.breakdown.reporting.db.dao.to.UsersTO;
 import com.wovenware.aee.breakdown.reporting.util.ConnectionUtil;
+import com.wovenware.aee.breakdown.reporting.util.EncryptionUtil;
 import com.wovenware.aee.breakdown.reporting.util.FeedbackUtil;
 import com.wovenware.aee.breakdown.reporting.util.ValidationUtil;
 
@@ -79,18 +80,14 @@ public class Login implements Serializable {
 	    		
 	    		connection.commit();
 	    		
-	    		// TODO: Password encryption...
-	    		if(usersTO != null && usersTO.getPassword().equals(_password)) {
+	    		if(usersTO != null && usersTO.getPassword().equals(EncryptionUtil.encrypt(_password))) {
 	    			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 	    					Constants.Session.USER_EMAIL, usersTO.getPkUserId());
 	    			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 	    					Constants.Session.USER_NAME, usersTO.getName());
 	    			
 	    			_email = null;
-	    			_emailFeedback = null;
-	    			
 	    			_password = null;
-	    			_passwordFeedback = null;
 	    			
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect("main.jsf");
 	    		} else {
@@ -101,9 +98,9 @@ public class Login implements Serializable {
 	    		}
     		} catch(Exception e) {
     			_feedback = FeedbackUtil.formatGeneralFeedback(
-    					Constants.AlertTypes.WARNING,
-    					"¡Advertencia!",
-    					e.getMessage());
+    					Constants.AlertTypes.ERROR,
+    					"¡Error!",
+    					"La aplicaci&oacute;n no esta disponible en estos momentos. Por favor intente mas tarde.");
         		
         		try {
         			if(connection != null && !connection.isClosed()) {

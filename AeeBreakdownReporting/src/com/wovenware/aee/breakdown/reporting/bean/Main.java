@@ -44,7 +44,7 @@ public class Main extends GenericBean {
 	
 	// User Areas
 	public String getUserAreas() {
-		_userAreas = loadUserAreas();
+		loadUserAreas(false);
 		
 		return _userAreas;
 	}
@@ -86,7 +86,7 @@ public class Main extends GenericBean {
 	}
 	
 	public List<SelectItem> getCityList() {
-		_cityList = loadCityList();
+		loadCityList(false);
 		
 		return _cityList;
 	}
@@ -101,7 +101,7 @@ public class Main extends GenericBean {
 	}
 	
 	public List<SelectItem> getAreaList() {
-		_areaList = loadAreaList();
+		loadAreaList(false);
 		
 		return _areaList;
 	}
@@ -115,91 +115,93 @@ public class Main extends GenericBean {
 		_name = name;
 	}
 	
-	public String loadUserAreas() {
-		StringBuilder userAreas = new StringBuilder();
-		
-		List<UserAreasTO> results = getUserAreas(_userEmail);
-		
-		int i = 0;
-		
-		if(results != null) {
-			for(UserAreasTO userAreasTO : results) {
-				i++;
-				
-				boolean hasBreakdown = userAreasTO.getStatus() != null;
-				
-				userAreas.append("<div class=\"row-fluid item\">");
-				userAreas.append("<div class=\"span11\">");
-				userAreas.append("<h4 id=\"title" + i + "\">");
-				
-				if(hasBreakdown) {
-					userAreas.append("<i class=\"icon-bell text-error\"></i>");
-				} else {
-					userAreas.append("<i class=\"icon-check text-info\"></i>");
+	public void loadUserAreas(boolean force) {
+		if(_userAreas == null || force) {
+			StringBuilder userAreas = new StringBuilder();
+			
+			List<UserAreasTO> results = getUserAreas(_userEmail);
+			
+			int i = 0;
+			
+			if(results != null) {
+				for(UserAreasTO userAreasTO : results) {
+					i++;
+					
+					boolean hasBreakdown = userAreasTO.getStatus() != null;
+					
+					userAreas.append("<div class=\"row-fluid item\">");
+					userAreas.append("<div class=\"span11\">");
+					userAreas.append("<h4 id=\"title" + i + "\">");
+					
+					if(hasBreakdown) {
+						userAreas.append("<i class=\"icon-bell text-error\"></i>");
+					} else {
+						userAreas.append("<i class=\"icon-check text-info\"></i>");
+					}
+					
+					userAreas.append("&nbsp;");
+					userAreas.append("<a id=\"update" + i + "\"" +
+							" href=\"javascript:;\"" +
+							" data-toggle=\"tooltip\"" +
+							" title=\"Actualizar\" " +
+							" onmouseover=\"$('#update" + i + "').tooltip('show');\"" +
+							" onclick=\"editArea('" + i + "','" + userAreasTO.getName() + "');\">");
+					userAreas.append(userAreasTO.getName());
+					userAreas.append("</a>");
+					
+					if(!userAreasTO.getName().equals(userAreasTO.getArea() + ", " + userAreasTO.getCity())) {
+						userAreas.append("&nbsp;<small>");
+						userAreas.append("(" + userAreasTO.getArea() + ",&nbsp;" + userAreasTO.getCity() + ")");
+						userAreas.append("</small>");
+					}
+					
+					userAreas.append("</h4>");
+					userAreas.append("<div id=\"updateForm" + i + "\" class=\"update-form\" style=\"display: none;\">");
+					userAreas.append("<input id=\"updateOriginalName" + i + "\" type=\"hidden\" />");
+					userAreas.append("<input id=\"updateName" + i + "\" type=\"text\" />");
+					userAreas.append("&nbsp;");
+					userAreas.append("<a href=\"javascript:;\" class=\"btn btn-primary btn-small\" onclick=\"executeUpdate('" + i + "');\">Actualizar</a>");
+					userAreas.append("&nbsp;");
+					userAreas.append("<a href=\"javascript:;\" class=\"btn btn-small\" onclick=\"cancelUpdate('" + i + "');\">Cancelar</a></div>");
+					userAreas.append("<div class=\"status\">");
+					
+					if(hasBreakdown) {
+						userAreas.append("<span class=\"label label-important\">");
+						userAreas.append(userAreasTO.getStatus());
+						userAreas.append("</span>");
+						userAreas.append("&nbsp;-&nbsp;");
+						userAreas.append(userAreasTO.getRptdLastUpdateTs());
+					} else {
+						userAreas.append("<span class=\"label label-info\">");
+						userAreas.append("No hay aver&iacute;as reportadas para esta &aacute;rea");
+						userAreas.append("</span>");
+					}
+					
+					userAreas.append("</div></div>");
+					userAreas.append("<div class=\"span1 remove\">");
+					userAreas.append("<a id=\"delete" + i + "\"" +
+							" href=\"javascript:;\"" +
+							" class=\"close\" " +
+							" data-toggle=\"tooltip\"" +
+							" title=\"Borrar\" " +
+							" onmouseover=\"$('#delete" + i + "').tooltip('show');\"" +
+							" onclick=\"removeArea('" + userAreasTO.getName() + "');\">");
+					userAreas.append("<i class=\"icon-remove-circle\"></i>");
+					userAreas.append("</a></div></div>");
 				}
-				
-				userAreas.append("&nbsp;");
-				userAreas.append("<a id=\"update" + i + "\"" +
-						" href=\"javascript:;\"" +
-						" data-toggle=\"tooltip\"" +
-						" title=\"Actualizar\" " +
-						" onmouseover=\"$('#update" + i + "').tooltip('show');\"" +
-						" onclick=\"editArea('" + i + "','" + userAreasTO.getName() + "');\">");
-				userAreas.append(userAreasTO.getName());
-				userAreas.append("</a>");
-				
-				if(!userAreasTO.getName().equals(userAreasTO.getArea() + ", " + userAreasTO.getCity())) {
-					userAreas.append("&nbsp;<small>");
-					userAreas.append("(" + userAreasTO.getArea() + ",&nbsp;" + userAreasTO.getCity() + ")");
-					userAreas.append("</small>");
-				}
-				
-				userAreas.append("</h4>");
-				userAreas.append("<div id=\"updateForm" + i + "\" class=\"update-form\" style=\"display: none;\">");
-				userAreas.append("<input id=\"updateOriginalName" + i + "\" type=\"hidden\" />");
-				userAreas.append("<input id=\"updateName" + i + "\" type=\"text\" />");
-				userAreas.append("&nbsp;");
-				userAreas.append("<a href=\"javascript:;\" class=\"btn btn-primary btn-small\" onclick=\"executeUpdate('" + i + "');\">Actualizar</a>");
-				userAreas.append("&nbsp;");
-				userAreas.append("<a href=\"javascript:;\" class=\"btn btn-small\" onclick=\"cancelUpdate('" + i + "');\">Cancelar</a></div>");
-				userAreas.append("<div class=\"status\">");
-				
-				if(hasBreakdown) {
-					userAreas.append("<span class=\"label label-important\">");
-					userAreas.append(userAreasTO.getStatus());
-					userAreas.append("</span>");
-					userAreas.append("&nbsp;-&nbsp;");
-					userAreas.append(userAreasTO.getRptdLastUpdateTs());
-				} else {
-					userAreas.append("<span class=\"label label-info\">");
-					userAreas.append("No hay aver&iacute;as reportadas para esta &aacute;rea");
-					userAreas.append("</span>");
-				}
-				
-				userAreas.append("</div></div>");
-				userAreas.append("<div class=\"span1 remove\">");
-				userAreas.append("<a id=\"delete" + i + "\"" +
-						" href=\"javascript:;\"" +
-						" class=\"close\" " +
-						" data-toggle=\"tooltip\"" +
-						" title=\"Borrar\" " +
-						" onmouseover=\"$('#delete" + i + "').tooltip('show');\"" +
-						" onclick=\"removeArea('" + userAreasTO.getName() + "');\">");
-				userAreas.append("<i class=\"icon-remove-circle\"></i>");
-				userAreas.append("</a></div></div>");
 			}
+			
+			if(i == 0) {
+				userAreas.append(FeedbackUtil.formatGeneralFeedback(
+						Constants.AlertTypes.WARNING,
+						"¡Atenci&oacute;n!",
+						"Usted no tiene ning&uacute;n &aacute;rea relevante configurada en este momento. Por favor utilize la forma de la derecha para a&ntilde;adir las &aacute;reas relevantes para usted.",
+						false));
+		    	
+			}
+			
+			_userAreas = userAreas.toString();
 		}
-		
-		if(i == 0) {
-			userAreas.append(FeedbackUtil.formatGeneralFeedback(
-					Constants.AlertTypes.WARNING,
-					"Atenci&oacute;n!",
-					"Usted no tiene ning&uacute;n &aacute;rea relevante configurada en este momento. Por favor utilize la forma de la derecha para a&ntilde;adir las &aacute;reas relevantes para usted.",
-					false));
-	    	
-		}
-		
-		return userAreas.toString();
 	}
  
     public List<UserAreasTO> getUserAreas(String email) {
@@ -238,24 +240,26 @@ public class Main extends GenericBean {
     	return results;
     }
     
-    public List<SelectItem> loadCityList() {
-    	List<SelectItem> cityList = new ArrayList<SelectItem>();
-    	
-    	List<CityAreasTO> results = getCities(_userEmail);
-    	
-    	boolean isFirst = true;
-    	
-    	for(CityAreasTO cityAreasTO : results) {
-    		if(isFirst){
-    			isFirst = false;
-    			
-    			_city = cityAreasTO.getCity();
-    		}
-    		
-    		cityList.add(new SelectItem(cityAreasTO.getCity()));
+    public void loadCityList(boolean force) {
+    	if(_cityList == null || force) {
+	    	List<SelectItem> cityList = new ArrayList<SelectItem>();
+	    	
+	    	List<CityAreasTO> results = getCities(_userEmail);
+	    	
+	    	boolean isFirst = true;
+	    	
+	    	for(CityAreasTO cityAreasTO : results) {
+	    		if(isFirst){
+	    			isFirst = false;
+	    			
+	    			_city = cityAreasTO.getCity();
+	    		}
+	    		
+	    		cityList.add(new SelectItem(cityAreasTO.getCity()));
+	    	}
+	        
+			_cityList = cityList;
     	}
-        
-		return cityList;
 	}
     
     public List<CityAreasTO> getCities(String email) {
@@ -294,16 +298,18 @@ public class Main extends GenericBean {
     	return results;
     }
     
-    public List<SelectItem> loadAreaList() {
-    	List<SelectItem> areaList = new ArrayList<SelectItem>();
-    	
-    	List<CityAreasTO> results = getAreas(_city, _userEmail);
-    	
-    	for(CityAreasTO cityAreasTO : results) {
-    		areaList.add(new SelectItem(cityAreasTO.getArea()));
+    public void loadAreaList(boolean force) {
+    	if(_areaList == null || force) {
+	    	List<SelectItem> areaList = new ArrayList<SelectItem>();
+	    	
+	    	List<CityAreasTO> results = getAreas(_city, _userEmail);
+	    	
+	    	for(CityAreasTO cityAreasTO : results) {
+	    		areaList.add(new SelectItem(cityAreasTO.getArea()));
+	    	}
+	        
+			_areaList = areaList;
     	}
-        
-		return areaList;
 	}
     
     public List<CityAreasTO> getAreas(String city, String email) {
@@ -343,7 +349,7 @@ public class Main extends GenericBean {
     }
     
     public void updateAreaOptions() {
-    	_areaList = loadAreaList();
+    	loadAreaList(true);
 	}
     
     public void updateArea() {
@@ -365,9 +371,9 @@ public class Main extends GenericBean {
 					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _newName + "</strong></i> fue actualizada exitosamente.");
 	    	
+	    	loadUserAreas(true);
+	    	
 	    	_areaToDelete = null;
-	    	_cityList = loadCityList();
-	    	_areaList = loadAreaList();
 	    	_name = null;
     	} catch(Exception e) {
     		_feedback = FeedbackUtil.formatGeneralFeedback(
@@ -414,9 +420,13 @@ public class Main extends GenericBean {
 					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _areaToDelete + "</strong></i> fue removida exitosamente.");
 	    	
+	    	loadUserAreas(true);
+	    	
 	    	_areaToDelete = null;
-	    	_cityList = loadCityList();
-	    	_areaList = loadAreaList();
+	    	
+	    	loadCityList(true);
+	    	loadAreaList(true);
+	    	
 	    	_name = null;
     	} catch(Exception e) {
     		_feedback = FeedbackUtil.formatGeneralFeedback(
@@ -474,8 +484,10 @@ public class Main extends GenericBean {
 					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _name + "</strong></i> fue a&ntilde;adida exitosamente.");
 	    	
-	    	_cityList = loadCityList();
-	    	_areaList = loadAreaList();
+	    	loadUserAreas(true);
+	    	loadCityList(true);
+	    	loadAreaList(true);
+	    	
 	    	_name = null;
     	} catch(Exception e) {
     		_feedback = FeedbackUtil.formatGeneralFeedback(

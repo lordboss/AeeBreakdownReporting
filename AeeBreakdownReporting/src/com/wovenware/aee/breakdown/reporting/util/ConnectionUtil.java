@@ -1,5 +1,13 @@
 package com.wovenware.aee.breakdown.reporting.util;
 
+/**
+ * <i>Connection Utility.</i>
+ * 
+ * Wovenware, Inc 2013
+ * Created on June 06, 2013
+ * @author Nelson Perez
+ */
+
 import java.sql.Connection;
 import java.util.logging.Logger;
 import javax.sql.DataSource;

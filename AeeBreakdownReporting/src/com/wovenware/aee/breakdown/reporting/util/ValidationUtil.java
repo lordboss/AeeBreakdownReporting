@@ -1,5 +1,13 @@
 package com.wovenware.aee.breakdown.reporting.util;
 
+/**
+ * <i>Validation Utility.</i>
+ * 
+ * Wovenware, Inc 2013
+ * Created on June 06, 2013
+ * @author Nelson Perez
+ */
+
 import java.sql.Connection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -19,6 +19,7 @@ import com.wovenware.aee.breakdown.reporting.Constants;
 import com.wovenware.aee.breakdown.reporting.db.dao.UsersDAO;
 import com.wovenware.aee.breakdown.reporting.db.dao.to.UsersTO;
 import com.wovenware.aee.breakdown.reporting.util.ConnectionUtil;
+import com.wovenware.aee.breakdown.reporting.util.EncryptionUtil;
 import com.wovenware.aee.breakdown.reporting.util.FeedbackUtil;
 import com.wovenware.aee.breakdown.reporting.util.ValidationUtil;
 
@@ -36,6 +37,8 @@ public class Signup implements Serializable {
 	private String _telephoneFeedback = null;
 	private String _password = null;
 	private String _passwordFeedback = null;
+	private String _passwordConfirmation = null;
+	private String _passwordConfirmationFeedback = null;
 
 	// Feedback
 	public String getFeedback() {
@@ -93,6 +96,19 @@ public class Signup implements Serializable {
     public String getPasswordFeedback() {
         return _passwordFeedback;
     }
+    
+    // Password Confirmation
+    public String getPasswordConfirmation() {
+        return _passwordConfirmation;
+    }
+    
+    public void setPasswordConfirmation(String passwordConfirmation) {
+    	_passwordConfirmation = passwordConfirmation;
+    }
+
+    public String getPasswordConfirmationFeedback() {
+        return _passwordConfirmationFeedback;
+    }
  
     public void save () {
     	validateForm();
@@ -109,7 +125,7 @@ public class Signup implements Serializable {
 	    		usersTO.setPkUserId(_email);
 	    		usersTO.setPhone(_telephone);
 	    		//usersTO.setSmsInd(null);
-	    		usersTO.setPassword(_password);
+	    		usersTO.setPassword(EncryptionUtil.encrypt(_password));
 	    		
 	    		UsersDAO usersDAO = new UsersDAO(connection);
 	    		usersDAO.create(usersTO);
@@ -121,12 +137,17 @@ public class Signup implements Serializable {
 	    		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 						Constants.Session.USER_NAME, usersTO.getName());
 	    		
+	    		_name = null;
+	    		_email = null;
+	    		_telephone = null;
+	    		_password = null;
+	    		
 	    		FacesContext.getCurrentInstance().getExternalContext().redirect("main.jsf");
 			} catch(Exception e) {
 				_feedback = FeedbackUtil.formatGeneralFeedback(
-						Constants.AlertTypes.WARNING,
-						"¡Advertencia!",
-						e.getMessage());
+						Constants.AlertTypes.ERROR,
+						"¡Error!",
+						"El proceso de registraci&oacute;n no pudo ser completado en este momento. Por favor intente mas tarde.");
 				
 				try {
 					if(connection != null && !connection.isClosed()) {
@@ -155,6 +176,7 @@ public class Signup implements Serializable {
     	_emailFeedback = null;
     	_telephoneFeedback = null;
     	_passwordFeedback = null;
+    	_passwordConfirmationFeedback = null;
     	
     	if(_name == null || _name.trim().isEmpty()) {
     		_nameFeedback = FeedbackUtil.formatFieldFeedback("Requerido");
@@ -178,8 +200,15 @@ public class Signup implements Serializable {
     		_passwordFeedback = FeedbackUtil.formatFieldFeedback("Requerido");
     	}
     	
+    	if(_passwordConfirmation == null || _passwordConfirmation.trim().isEmpty()) {
+    		_passwordConfirmationFeedback = FeedbackUtil.formatFieldFeedback("Requerido");
+    	} else if(_passwordFeedback == null && !_password.equals(_passwordConfirmation)) {
+    		_passwordConfirmationFeedback = FeedbackUtil.formatFieldFeedback("Inv&aacute;lido");
+    	}
+    	
     	if(_nameFeedback != null || _emailFeedback != null 
-    			|| _telephoneFeedback != null || _passwordFeedback != null) {
+    			|| _telephoneFeedback != null || _passwordFeedback != null
+    			|| _passwordConfirmationFeedback != null) {
 	    	_feedback = FeedbackUtil.formatGeneralFeedback(Constants.AlertTypes.WARNING,
 					"¡Advertencia!",
 					"Campos requeridos no fueron entrados o los valores son inv&aacute;lidos.");
