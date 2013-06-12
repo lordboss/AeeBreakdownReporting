@@ -2,7 +2,7 @@
     <wb-module deploy-name="AeeBreakdownReporting">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="aeebrk"/>
         <property name="java-output-path" value="/AeeBreakdownReporting/build/classes"/>
+        <property name="context-root" value="TeNotifico"/>
     </wb-module>
 </project-modules>
