@@ -92,7 +92,7 @@ public class BksReportedDAO
 	public List<BksReportedTO> find()
 			throws Exception
 	{
-		List<BksReportedTO> list = new ArrayList<>();
+		List<BksReportedTO> list = new ArrayList<BksReportedTO>();
 		BksReportedTO bksReportedTO = null;
 		ResultSet rs = null;
 		PreparedStatement pStmt = null;

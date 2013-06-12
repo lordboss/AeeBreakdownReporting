@@ -33,7 +33,7 @@ public class BksArchivedDAO
 	public List<BksArchivedTO> find()
 			throws Exception
 		{
-			List<BksArchivedTO> list = new ArrayList<>();
+			List<BksArchivedTO> list = new ArrayList<BksArchivedTO>();
 			BksArchivedTO bksArchivedTO = null;
 			ResultSet rs = null;
 			PreparedStatement pStmt = null;
