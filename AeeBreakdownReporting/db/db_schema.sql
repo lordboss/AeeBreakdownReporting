@@ -60,3 +60,4 @@ insert into aeebk.city_areas (
 	group by ra.CITY, ra.AREA
 )
 $$
+
