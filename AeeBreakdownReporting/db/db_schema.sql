@@ -33,6 +33,13 @@ CREATE TABLE `bk_2_users` (
   `CITY` varchar(35) NOT NULL,
   `AREA` varchar(55) NOT NULL,
   `FK_USER_ID` varchar(50) NOT NULL,
+  `NAME` varchar(55) NOT NULL,
   PRIMARY KEY (`CITY`,`AREA`,`FK_USER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+
+CREATE TABLE `city_areas` (
+  `CITY` varchar(35) NOT NULL,
+  `AREA` varchar(55) NOT NULL,
+  PRIMARY KEY (`CITY`,`AREA`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
