@@ -164,8 +164,8 @@ public class BreakdownServlet extends HttpServlet
 					// Get list of previous breakdown reporting.
 					List<BksReportedTO> prevList = bksReportedDAO.find();
 					conn.commit();
-					Map<String, BksReportedTO> prevMap = new TreeMap<>();
-					List<String> processedKeys = new ArrayList<>();
+					Map<String, BksReportedTO> prevMap = new TreeMap<String, BksReportedTO>();
+					List<String> processedKeys = new ArrayList<String>();
 					
 					while ( !  prevList.isEmpty() )
 					{

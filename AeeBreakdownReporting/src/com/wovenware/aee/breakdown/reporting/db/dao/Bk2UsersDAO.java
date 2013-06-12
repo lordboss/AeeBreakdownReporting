@@ -33,7 +33,7 @@ public class Bk2UsersDAO
 	public List<Bk2UsersTO> find( String pkUserId )
 		throws Exception
 	{
-		List<Bk2UsersTO> list = new ArrayList<>();
+		List<Bk2UsersTO> list = new ArrayList<Bk2UsersTO>();
 		Bk2UsersTO bk2UsersTO = null;
 		ResultSet rs = null;
 		PreparedStatement pStmt = null;
@@ -86,7 +86,7 @@ public class Bk2UsersDAO
 	public List<Bk2UsersTO> find( String city, String area )
 			throws Exception
 		{
-			List<Bk2UsersTO> list = new ArrayList<>();
+			List<Bk2UsersTO> list = new ArrayList<Bk2UsersTO>();
 			Bk2UsersTO bk2UsersTO = null;
 			ResultSet rs = null;
 			PreparedStatement pStmt = null;
