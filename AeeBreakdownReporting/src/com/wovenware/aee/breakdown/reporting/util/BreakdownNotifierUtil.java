@@ -28,12 +28,14 @@ public class BreakdownNotifierUtil
 		private PushTypes() {}
 	}
 	
+	static public final String ZONE_PLACEHOLDER = "@@ZONE@@";
+	
 	// Attributes...
 	private EmailUtil eUtil = new EmailUtil();
 	private Logger _log = Logger.getLogger( BreakdownNotifierUtil.class.getName() );
 
 	// Methods...
-	public void push( Connection conn, BksReportedTO bksReportedTO, String message )
+	public void push( Connection conn, BksReportedTO bksReportedTO, String title, String message )
 			throws Exception 
 	{
 		try
@@ -52,10 +54,18 @@ public class BreakdownNotifierUtil
 				bk2UsersTO = listRegs.remove(0);
 				
 				// TODO: Revise message.  Use message bundles.
-				String subject = message;
-				String body = message + "\n";
-					body += "Zona afectada: " + bk2UsersTO.getCity() + ", " + bk2UsersTO.getArea() + "\n";
-					body += "Informacion adicional: " + bksReportedTO.getStatus() + ", " + bksReportedTO.getRptdLastUpdateTs() + "\n";
+				String subject = title;
+				String body = message;
+				
+				if ( body.contains( ZONE_PLACEHOLDER ) )
+				{
+					String zone = bk2UsersTO.getName();
+					if(!zone.equals(bk2UsersTO.getArea() + ", " + bk2UsersTO.getCity())) 
+					{
+						zone += " (" + bk2UsersTO.getArea() + ", " + bk2UsersTO.getCity() + ")";
+					}
+					body = body.replace( ZONE_PLACEHOLDER, zone );
+				}
 					
 				this.eUtil.sendMail(null, bk2UsersTO.getFkUserId(), subject, body);
 			}
