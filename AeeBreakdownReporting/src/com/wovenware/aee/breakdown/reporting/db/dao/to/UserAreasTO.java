@@ -19,6 +19,7 @@ public class UserAreasTO
 	private String status = null;
 	private String rptdLastUpdateTs = null;
 	private Date openTs = null;
+	private Date closeTs = null;
 		
 	// Getters/Setters
 	public String getFkUserId() {
@@ -62,5 +63,11 @@ public class UserAreasTO
 	}
 	public void setOpenTs(Date openTs) {
 		this.openTs = openTs;
+	}
+	public Date getCloseTs() {
+		return closeTs;
+	}
+	public void setCloseTs(Date closeTs) {
+		this.closeTs = closeTs;
 	}
 }

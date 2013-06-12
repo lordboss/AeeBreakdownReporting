@@ -18,6 +18,7 @@ import javax.faces.model.SelectItem;
 
 import com.wovenware.aee.breakdown.reporting.Constants;
 import com.wovenware.aee.breakdown.reporting.db.dao.Bk2UsersDAO;
+import com.wovenware.aee.breakdown.reporting.db.dao.BksReportedDAO;
 import com.wovenware.aee.breakdown.reporting.db.dao.CityAreasDAO;
 import com.wovenware.aee.breakdown.reporting.db.dao.UserAreasDAO;
 import com.wovenware.aee.breakdown.reporting.db.dao.to.Bk2UsersTO;
@@ -31,6 +32,9 @@ import com.wovenware.aee.breakdown.reporting.util.FeedbackUtil;
 public class Main extends GenericBean {
 	private static final long serialVersionUID = 1L;
 	
+	private String _relevantBreakdownsCount = null;
+	private String _averageBreakdownDuration = null;
+	private String _totalBreakdownsCount = null;
 	private String _userAreas = null;
 	private String _areaToUpdate = null;
 	private String _newName = null;
@@ -41,6 +45,29 @@ public class Main extends GenericBean {
 	
 	private List<SelectItem> _cityList = null;
 	private List<SelectItem> _areaList = null;
+	
+	private boolean _emptyUserAreas = true;
+	
+	// Relevant Breakdowns Count
+	public String getRelevantBreakdownsCount() {
+		findRelevantBreakdownsCount(false);
+		
+		return _relevantBreakdownsCount;
+	}
+	
+	// Average Breakdown Duration
+	public String getAverageBreakdownDuration() {
+		findAverageBreakdownDuration(false);
+		
+		return _averageBreakdownDuration;
+	}
+	
+	// Total Breakdowns Count
+	public String getTotalBreakdownsCount() {
+		findTotalBreakdownsCount(false);
+		
+		return _totalBreakdownsCount;
+	}
 	
 	// User Areas
 	public String getUserAreas() {
@@ -115,11 +142,144 @@ public class Main extends GenericBean {
 		_name = name;
 	}
 	
-	public void loadUserAreas(boolean force) {
-		if(_userAreas == null || force) {
+	private void updateDashboard() {
+		findRelevantBreakdownsCount(true);
+		findAverageBreakdownDuration(true);
+		findTotalBreakdownsCount(true);
+	}
+	
+	private void findRelevantBreakdownsCount(boolean force) {
+    	if(_relevantBreakdownsCount == null || force) {
+			_relevantBreakdownsCount = "0";
+	    	
+	    	Connection connection = null;
+	    	
+	    	try {
+	    		connection = ConnectionUtil.createConnection(
+	    				Constants.Services.JNDI_JDBC_APP, false);
+		    		
+	    		UserAreasDAO userAreasDAO = new UserAreasDAO(connection);
+	    		
+	    		_relevantBreakdownsCount = String.valueOf(
+	    				userAreasDAO.countBreakdowns(_userEmail));
+		    		
+		    	connection.commit();
+	    	} catch(Exception e) {
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.rollback();
+	    			}
+	    		} catch (Exception e1) {
+	    			// Do nothing...
+	    		}
+	    	} finally {
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.close();
+	    			}
+	    		} catch (Exception e) {
+	    			// Do nothing...
+	    		} finally {
+	    			connection = null;
+	    		}
+	    	}
+    	}
+    }
+
+	private void findAverageBreakdownDuration(boolean force) {
+    	if(_averageBreakdownDuration == null || force) {
+    		_averageBreakdownDuration = "0";
+	    	
+	    	Connection connection = null;
+	    	
+	    	try {
+	    		connection = ConnectionUtil.createConnection(
+	    				Constants.Services.JNDI_JDBC_APP, false);
+		    		
+	    		UserAreasDAO userAreasDAO = new UserAreasDAO(connection);
+	    		
+	    		List<UserAreasTO> results = userAreasDAO.findBreakdowns(_userEmail);
+	    		
+	    		long hours = 0;
+	    		
+	    		for(UserAreasTO userAreasTO : results) {
+	    			long difference = userAreasTO.getCloseTs().getTime() - userAreasTO.getOpenTs().getTime();
+	    			
+	    			hours += (difference / 3600000);
+	    		}
+	    		
+	    		if(results.size() > 0) {
+	    			hours = hours / results.size();
+	    		}
+	    		
+	    		_averageBreakdownDuration = String.valueOf(hours);
+		    		
+		    	connection.commit();
+	    	} catch(Exception e) {
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.rollback();
+	    			}
+	    		} catch (Exception e1) {
+	    			// Do nothing...
+	    		}
+	    	} finally {
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.close();
+	    			}
+	    		} catch (Exception e) {
+	    			// Do nothing...
+	    		} finally {
+	    			connection = null;
+	    		}
+	    	}
+    	}
+    }
+	
+	private void findTotalBreakdownsCount(boolean force) {
+    	if(_totalBreakdownsCount == null || force) {
+    		_totalBreakdownsCount = "0";
+	    	
+	    	Connection connection = null;
+	    	
+	    	try {
+	    		connection = ConnectionUtil.createConnection(
+	    				Constants.Services.JNDI_JDBC_APP, false);
+		    		
+	    		BksReportedDAO bksReportedDAO = new BksReportedDAO(connection);
+	    		
+	    		_totalBreakdownsCount = String.valueOf(
+	    				bksReportedDAO.count());
+		    		
+		    	connection.commit();
+	    	} catch(Exception e) {
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.rollback();
+	    			}
+	    		} catch (Exception e1) {
+	    			// Do nothing...
+	    		}
+	    	} finally {
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.close();
+	    			}
+	    		} catch (Exception e) {
+	    			// Do nothing...
+	    		} finally {
+	    			connection = null;
+	    		}
+	    	}
+    	}
+    }
+	
+	private void loadUserAreas(boolean force) {
+		if(_userAreas == null || _emptyUserAreas || force) {
 			StringBuilder userAreas = new StringBuilder();
 			
-			List<UserAreasTO> results = getUserAreas(_userEmail);
+			List<UserAreasTO> results = findUserAreas(_userEmail);
 			
 			int i = 0;
 			
@@ -192,19 +352,22 @@ public class Main extends GenericBean {
 			}
 			
 			if(i == 0) {
+				_emptyUserAreas = true;
+				
 				userAreas.append(FeedbackUtil.formatGeneralFeedback(
 						Constants.AlertTypes.WARNING,
 						"¡Atenci&oacute;n!",
 						"Usted no tiene ning&uacute;n &aacute;rea relevante configurada en este momento. Por favor utilize la forma de la derecha para a&ntilde;adir las &aacute;reas relevantes para usted.",
 						false));
-		    	
+			} else {
+				_emptyUserAreas = false;
 			}
 			
 			_userAreas = userAreas.toString();
 		}
 	}
  
-    public List<UserAreasTO> getUserAreas(String email) {
+    private List<UserAreasTO> findUserAreas(String email) {
     	List<UserAreasTO> results = null;
     	
     	Connection connection = null;
@@ -240,11 +403,11 @@ public class Main extends GenericBean {
     	return results;
     }
     
-    public void loadCityList(boolean force) {
+    private void loadCityList(boolean force) {
     	if(_cityList == null || force) {
 	    	List<SelectItem> cityList = new ArrayList<SelectItem>();
 	    	
-	    	List<CityAreasTO> results = getCities(_userEmail);
+	    	List<CityAreasTO> results = findCities(_userEmail);
 	    	
 	    	boolean isFirst = true;
 	    	
@@ -262,7 +425,7 @@ public class Main extends GenericBean {
     	}
 	}
     
-    public List<CityAreasTO> getCities(String email) {
+    private List<CityAreasTO> findCities(String email) {
     	List<CityAreasTO> results = null;
     	
     	Connection connection = null;
@@ -298,11 +461,11 @@ public class Main extends GenericBean {
     	return results;
     }
     
-    public void loadAreaList(boolean force) {
+    private void loadAreaList(boolean force) {
     	if(_areaList == null || force) {
 	    	List<SelectItem> areaList = new ArrayList<SelectItem>();
 	    	
-	    	List<CityAreasTO> results = getAreas(_city, _userEmail);
+	    	List<CityAreasTO> results = findAreas(_city, _userEmail);
 	    	
 	    	for(CityAreasTO cityAreasTO : results) {
 	    		areaList.add(new SelectItem(cityAreasTO.getArea()));
@@ -312,7 +475,7 @@ public class Main extends GenericBean {
     	}
 	}
     
-    public List<CityAreasTO> getAreas(String city, String email) {
+    private List<CityAreasTO> findAreas(String city, String email) {
     	List<CityAreasTO> results = null;
     	
     	Connection connection = null;
@@ -371,6 +534,7 @@ public class Main extends GenericBean {
 					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _newName + "</strong></i> fue actualizada exitosamente.");
 	    	
+	    	updateDashboard();
 	    	loadUserAreas(true);
 	    	
 	    	_areaToDelete = null;
@@ -420,6 +584,7 @@ public class Main extends GenericBean {
 					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _areaToDelete + "</strong></i> fue removida exitosamente.");
 	    	
+	    	updateDashboard();
 	    	loadUserAreas(true);
 	    	
 	    	_areaToDelete = null;
@@ -484,6 +649,7 @@ public class Main extends GenericBean {
 					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _name + "</strong></i> fue a&ntilde;adida exitosamente.");
 	    	
+	    	updateDashboard();
 	    	loadUserAreas(true);
 	    	loadCityList(true);
 	    	loadAreaList(true);

@@ -30,6 +30,45 @@ public class BksReportedDAO
 	}
 	
 	// Methods...
+	public int count()
+			throws Exception
+	{
+		int breakdownsCount = 0;
+		
+		ResultSet rs = null;
+		PreparedStatement pStmt = null;
+		
+		final String SELECT_SQL = "SELECT COUNT(*) " +
+				"FROM `aeebk`.`bks_reported`";
+		
+		try
+		{
+			pStmt = this._conn.prepareStatement( SELECT_SQL );
+			
+			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
+			
+			rs = pStmt.executeQuery();
+			
+			if ( rs != null && rs.next() )
+			{
+				breakdownsCount = rs.getInt(1);
+			}
+		}
+		finally
+		{
+			if ( rs != null )
+			{
+				rs.close();
+			}
+			
+			if ( pStmt != null && ! pStmt.isClosed() )
+			{
+				pStmt.close();
+			}
+		}
+		
+		return breakdownsCount;
+	}
 	public BksReportedTO find( String city, String area )
 		throws Exception
 	{
