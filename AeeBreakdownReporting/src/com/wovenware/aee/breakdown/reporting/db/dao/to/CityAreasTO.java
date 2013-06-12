@@ -1,19 +1,17 @@
 package com.wovenware.aee.breakdown.reporting.db.dao.to;
 
 /**
- * <i>Breakdown to Users Transfer Object.</i>
+ * <i>City Areas Transfer Object.</i>
  * 
  * Wovenware, Inc 2013
  * Created on June 06, 2013
- * @author Alberto Aresti
+ * @author Nelson Perez
  */
-public class Bk2UsersTO 
+public class CityAreasTO 
 {
 	// Attributes...
 	private String city = null;
 	private String area = null;
-	private String fkUserId = null;
-	private String name = null;
 	
 	// Getters/Setters
 	public String getCity() {
@@ -27,17 +25,5 @@ public class Bk2UsersTO
 	}
 	public void setArea(String area) {
 		this.area = area;
-	}
-	public String getFkUserId() {
-		return fkUserId;
-	}
-	public void setFkUserId(String fkUserId) {
-		this.fkUserId = fkUserId;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 }

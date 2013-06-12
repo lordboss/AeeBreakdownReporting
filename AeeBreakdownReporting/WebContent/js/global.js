@@ -1,16 +1,22 @@
-function refreshFeedback(data) {
-	console.log(data.status);
-	alert($('#feedback').val());
-	if (data.status == 'completed'){
-		
-		if($('#feedback').val() != "") {
-			$('#feedbackPanel').show();
-		} else {
-			$('#feedbackPanel').hide();
-		}
-	}
+function editArea(index, name) {
+	$('#title' + index).hide();
+	$('#updateForm' + index).show();
+	$('#updateOriginalName' + index).val(name);
+	$('#updateName' + index).val(name);
 }
 
-function hideFeedback() {
-	$('#feedbackPanel').hide();
+function executeUpdate(index) {
+	$('.areaToUpdate').val($('#updateOriginalName' + index).val());
+	$('.newName').val($('#updateName' + index).val());
+	$('.update').click();
+}
+
+function cancelUpdate(index) {
+	$('#updateForm' + index).hide();
+	$('#title' + index).show();
+}
+
+function removeArea(name) {
+	$('.areaToDelete').val(name);
+	$('.delete').click();
 }

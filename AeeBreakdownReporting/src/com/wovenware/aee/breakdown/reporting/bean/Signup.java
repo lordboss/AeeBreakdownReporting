@@ -120,7 +120,10 @@ public class Signup implements Serializable {
 						Constants.Session.USER_EMAIL, usersTO.getPkUserId());
 	    		FacesContext.getCurrentInstance().getExternalContext().redirect("main.jsf");
 			} catch(Exception e) {
-				_feedback = FeedbackUtil.formatGeneralFeedback(e.getMessage());
+				_feedback = FeedbackUtil.formatGeneralFeedback(
+						Constants.AlertTypes.WARNING,
+						"Advertencias!",
+						e.getMessage());
 				
 				try {
 					if(connection != null && !connection.isClosed()) {
@@ -172,7 +175,8 @@ public class Signup implements Serializable {
     	
     	if(_nameFeedback != null || _emailFeedback != null 
     			|| _telephoneFeedback != null || _passwordFeedback != null) {
-	    	_feedback = FeedbackUtil.formatGeneralFeedback(
+	    	_feedback = FeedbackUtil.formatGeneralFeedback(Constants.AlertTypes.WARNING,
+					"Advertencias!",
 					"Campos requeridos no fueron entrados o los valores son inv&aacute;lidos.");
     	}
     }

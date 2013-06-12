@@ -39,7 +39,7 @@ public class Bk2UsersDAO
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
-				"SELECT `b2u`.`CITY`,`b2u`.`AREA`,`b2u`.`FK_USER_ID` " +
+				"SELECT `b2u`.`CITY`,`b2u`.`AREA`,`b2u`.`FK_USER_ID`,`b2u`.`NAME` " +
 				"FROM `aeebk`.`bk_2_users` b2u " +
 				"WHERE `b2u`.`FK_USER_ID` = ? ";
 		
@@ -62,6 +62,7 @@ public class Bk2UsersDAO
 				bk2UsersTO.setCity( 	rs.getString(1));
 				bk2UsersTO.setArea(		rs.getString(2));
 				bk2UsersTO.setFkUserId(	rs.getString(3));
+				bk2UsersTO.setName(		rs.getString(4));
 				
 				list.add( bk2UsersTO );
 			}
@@ -91,7 +92,7 @@ public class Bk2UsersDAO
 			PreparedStatement pStmt = null;
 			
 			final String SELECT_SQL =
-					"SELECT `b2u`.`CITY`,`b2u`.`AREA`,`b2u`.`FK_USER_ID` " +
+					"SELECT `b2u`.`CITY`,`b2u`.`AREA`,`b2u`.`FK_USER_ID`,`b2u`.`NAME` " +
 					"FROM `aeebk`.`bk_2_users` b2u " +
 					"WHERE `b2u`.`CITY` = ? AND `b2u`.`AREA` = ? ";
 			
@@ -116,6 +117,7 @@ public class Bk2UsersDAO
 					bk2UsersTO.setCity( 	rs.getString(1));
 					bk2UsersTO.setArea(		rs.getString(2));
 					bk2UsersTO.setFkUserId(	rs.getString(3));
+					bk2UsersTO.setName(		rs.getString(4));
 					
 					list.add( bk2UsersTO );
 				}
@@ -142,8 +144,8 @@ public class Bk2UsersDAO
 		PreparedStatement pStmt = null;
 		
 		final String SELECT_SQL =
-				"INSERT INTO `aeebk`.`bk_2_users` (`CITY`,`AREA`,`FK_USER_ID`) " +
-				"VALUES (?,?,?) ";
+				"INSERT INTO `aeebk`.`bk_2_users` (`CITY`,`AREA`,`FK_USER_ID`,`NAME`) " +
+				"VALUES (?,?,?,?) ";
 		
 		try
 		{
@@ -158,9 +160,47 @@ public class Bk2UsersDAO
 			_log.finest( "AREA[" + bk2UsersTO.getArea() + "]" );
 			pStmt.setString(i++, bk2UsersTO.getFkUserId());
 			_log.finest( "FK_USER_ID[" + bk2UsersTO.getFkUserId() + "]" );
+			pStmt.setString(i++, bk2UsersTO.getName());
+			_log.finest( "NAME[" + bk2UsersTO.getName() + "]" );
 			
-//			int cnt = 
-					pStmt.executeUpdate();
+			pStmt.executeUpdate();
+		}
+		finally
+		{
+			if ( pStmt != null && ! pStmt.isClosed() )
+			{
+				pStmt.close();
+			}
+		}
+	}
+	
+	public void update(String userId, String currentName, String newName)
+			throws Exception
+	{
+		PreparedStatement pStmt = null;
+		
+		final String SELECT_SQL =
+				"UPDATE `aeebk`.`bk_2_users` " +
+				"SET NAME = ? " +
+				"WHERE `FK_USER_ID` = ? AND `NAME` = ?";
+		
+		try
+		{
+			pStmt = this._conn.prepareStatement( SELECT_SQL );
+			
+			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
+			
+			int i = 1;
+		
+			// Where
+			pStmt.setString(i++, newName);
+			_log.finest( "NAME(new)[" + newName + "]" );
+			pStmt.setString(i++, userId);
+			_log.finest( "FK_USER_ID[" + userId + "]" );
+			pStmt.setString(i++, currentName);
+			_log.finest( "NAME(current)[" + currentName + "]" );
+			
+			pStmt.executeUpdate();
 		}
 		finally
 		{
@@ -198,6 +238,40 @@ public class Bk2UsersDAO
 			
 //			int cnt = 
 					pStmt.executeUpdate();
+		}
+		finally
+		{
+			if ( pStmt != null && ! pStmt.isClosed() )
+			{
+				pStmt.close();
+			}
+		}
+	}
+	
+	public void delete(String userId, String name)
+			throws Exception
+	{
+		PreparedStatement pStmt = null;
+		
+		final String SELECT_SQL =
+				"DELETE FROM `aeebk`.`bk_2_users` " +
+				"WHERE `FK_USER_ID` = ? AND `NAME` = ?";
+		
+		try
+		{
+			pStmt = this._conn.prepareStatement( SELECT_SQL );
+			
+			_log.finest( "Will execute sql[" + SELECT_SQL + "]..." );
+			
+			int i = 1;
+		
+			// Where
+			pStmt.setString(i++, userId);
+			_log.finest( "FK_USER_ID[" + userId + "]" );
+			pStmt.setString(i++, name);
+			_log.finest( "NAME[" + name + "]" );
+			
+			pStmt.executeUpdate();
 		}
 		finally
 		{

@@ -12,14 +12,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
         <!-- CSS -->
-	    <link href="frameworks/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen" />
-	    <link href="frameworks/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
-	    <link href="css/global.css" rel="stylesheet" media="screen" />
+	    <link rel="stylesheet" type="text/css" href="frameworks/bootstrap/css/bootstrap.css" />
+	    <link rel="stylesheet" type="text/css" href="frameworks/bootstrap/css/bootstrap-responsive.css" />
+	    <link rel="stylesheet" type="text/css" href="frameworks/font-awesome/css/font-awesome.css" />
+	    <link rel="stylesheet" type="text/css" href="css/global.css" />
 	    
 	    <!-- JS -->
-	    <script src="frameworks/jquery/jquery-1.9.1.js"></script>
-	    <script src="frameworks/bootstrap/js/bootstrap.js"></script>
-	    <script src="js/global.js"></script>
+	    <script type="text/javascript" src="frameworks/jquery/jquery-1.9.1.js"></script>
+	    <script type="text/javascript" src="frameworks/bootstrap/js/bootstrap.js"></script>
+	    <script type="text/javascript" src="js/global.js"></script>
     </h:head>
     <h:body>
     	<h:form rendered="#{main.onLoad}">
@@ -32,31 +33,71 @@
 	  			<div class="span7 offset1">
 	  				<div class="row-fluid">
 	  					<div class="span12 section-top">
-	  						<h3>Listado de Aver&iacute;as</h3>
+	  						<h3>&Aacute;reas Relevantes</h3>
 	  					</div>
 	  				</div>
+	  				<h:outputText id="feedback" value="#{main.feedback}" escape="false"></h:outputText>
 					<div class="row-fluid list">
 	  					<div class="span12">
-	  						<table class="table table-hover">
-	  							<tbody>
-	  								<h:outputText value="#{main.list}" escape="false"></h:outputText>
-		  						</tbody>
-		  					</table>
+	  						<h:outputText id="userAreas" value="#{main.userAreas}" escape="false"></h:outputText>
 		  				</div>
 		  			</div>
+		  			<div class="row-fluid" style="display: none;">
+			  			<h:inputText id="areaToUpdate" class="areaToUpdate" value="#{main.areaToUpdate}" />
+			  			<h:inputText id="newName" class="newName" value="#{main.newName}" />
+						<h:commandButton id="update" class="update" value="Actualizar" > 
+						    <f:ajax event="click" 
+						    	execute="areaToUpdate newName" 
+						    	listener="#{main.updateArea}" 
+						    	render="feedback userAreas areaToUpdate newName city area name"/>
+						</h:commandButton>
+		  			</div>
+		  			<div class="row-fluid" style="display: none;">
+			  			<h:inputText id="areaToDelete" class="areaToDelete" value="#{main.areaToDelete}" />
+						<h:commandButton id="delete" class="delete" value="Borrar" > 
+						    <f:ajax event="click" 
+						    	execute="areaToDelete" 
+						    	listener="#{main.deleteArea}" 
+						    	render="feedback userAreas areaToDelete city area name"/>
+						</h:commandButton>
+		  			</div>
 	  			</div>
-	  			<div class="span3">
+	  			<div id="newBreakdownForm" class="span3">
 					<div class="row-fluid">
 						<div class="span12 section-top">
-							<h3>Instrucciones</h3>
+							<h3>A&ntilde;adir &Aacute;rea</h3>
 						</div>
 					</div>
 					<div class="row-fluid">
-						<div class="span12">
-							<p>Bienvenido!</p>
-							<p>Por favor entre su email y contrase&ntilde;a para entrar.</p>
-							<p>Si a&uacute;n no se ha registrado puede hacerlo <a href="signup.jsf">aqu&iacute;.</a></p>
-						</div>
+						<div class="span12 sub-form-label">Pueblo/Ciudad:</div>
+					</div>
+					<div class="row-fluid">
+						<h:selectOneMenu id="city" value="#{main.city}" class="span12 sub-form-select">
+						   <f:selectItems value="#{main.cityList}" />
+						   <f:ajax listener="#{main.updateAreaOptions}" render="area" />
+						</h:selectOneMenu>
+					</div>
+					<div class="row-fluid">
+						<div class="span12 sub-form-label">&Aacute;rea:</div>
+					</div>
+					<div class="row-fluid">
+						<h:selectOneMenu id="area" value="#{main.area}" class="span12 sub-form-select">
+						   <f:selectItems value="#{main.areaList}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="row-fluid">
+						<div class="span12 sub-form-label">Nombre:</div>
+					</div>
+					<div class="row-fluid">
+						<h:inputText id="name" class="span12" value="#{main.name}" />
+					</div>
+					<div class="row-fluid sub-form-action">
+						<h:commandButton id="save" class="span12 btn btn-primary sub-form-action" value="A&ntilde;adir" > 
+						    <f:ajax event="click" 
+						    	execute="city area name" 
+						    	listener="#{main.addArea}" 
+						    	render="feedback userAreas city area name"/>
+						</h:commandButton>
 					</div>
 				</div>
 			</div>

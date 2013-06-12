@@ -28,5 +28,12 @@ public class Constants {
 		public static final String JNDI_JDBC_APP = "jdbc/aeebk";
 	}
 	
+	public static class AlertTypes
+	{
+		public static final String SUCCESS = "alert-success";
+		public static final String WARNING = "alert-block";
+		public static final String ERROR = "alert-error";
+	}
+	
 	private Constants() {}
 }

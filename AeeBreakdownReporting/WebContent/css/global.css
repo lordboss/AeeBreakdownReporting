@@ -74,6 +74,69 @@
 	padding: 0 10px;
 }
 
+.sub-form-label
+{
+	padding-top: 8px;
+}
+
+.sub-form-select
+{
+	height: 30px !important;
+}
+
+.sub-form-action
+{
+	margin-top: 10px;
+}
+
+.update-form
+{
+	
+}
+
+.update-form input
+{
+	margin-left: 10px;
+}
+
+.update-form a
+{
+	margin: 0 0 10px 10px;
+}
+
+.list
+{
+	
+}
+
+.list .item
+{
+	border-top: 1px solid #E0E0E0;
+	padding: 10px 0;
+}
+
+.list .item:hover
+{
+	background-color: #F9F9F9;
+}
+
+.list .item h4,
+.list .item .status
+{
+	margin-left: 10px;
+}
+
+.list .item h4 a,
+.list .item h4 a:visited
+{
+	color: inherit;
+}
+
+.list .item .remove
+{
+	padding-right: 10px;
+}
+
 .signup
 {
 	border: 1px solid #E0E0E0;

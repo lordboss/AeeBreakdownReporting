@@ -85,10 +85,16 @@ public class Login implements Serializable {
 	    					Constants.Session.USER_EMAIL, usersTO.getPkUserId());
 	    			FacesContext.getCurrentInstance().getExternalContext().redirect("main.jsf");
 	    		} else {
-	    			_feedback = FeedbackUtil.formatGeneralFeedback("El email y/o contrase&ntilde;a provistos son inv&aacute;lidos.");
+	    			_feedback = FeedbackUtil.formatGeneralFeedback(
+	    					Constants.AlertTypes.WARNING,
+	    					"Advertencia!",
+	    					"El email y/o contrase&ntilde;a provistos son inv&aacute;lidos.");
 	    		}
     		} catch(Exception e) {
-    			_feedback = FeedbackUtil.formatGeneralFeedback(e.getMessage());
+    			_feedback = FeedbackUtil.formatGeneralFeedback(
+    					Constants.AlertTypes.WARNING,
+    					"Advertencia!",
+    					e.getMessage());
         		
         		try {
         			if(connection != null && !connection.isClosed()) {
@@ -127,7 +133,8 @@ public class Login implements Serializable {
     	}
     	
     	if(_emailFeedback != null || _passwordFeedback != null) {
-	    	_feedback = FeedbackUtil.formatGeneralFeedback(
+	    	_feedback = FeedbackUtil.formatGeneralFeedback(Constants.AlertTypes.WARNING,
+	    			"Advertencia!",
 					"Campos requeridos no fueron entrados o los valores son inv&aacute;lidos.");
     	}
     }

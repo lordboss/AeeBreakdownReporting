@@ -43,7 +43,6 @@ public class GenericBean implements Serializable {
     }
     
     public boolean getOnLoad() {
-    	
     	_userEmail = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(
     			Constants.Session.USER_EMAIL);
     	
