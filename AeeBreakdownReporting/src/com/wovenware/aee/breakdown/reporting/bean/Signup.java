@@ -118,11 +118,14 @@ public class Signup implements Serializable {
 	    		
 	    		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 						Constants.Session.USER_EMAIL, usersTO.getPkUserId());
+	    		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
+						Constants.Session.USER_NAME, usersTO.getName());
+	    		
 	    		FacesContext.getCurrentInstance().getExternalContext().redirect("main.jsf");
 			} catch(Exception e) {
 				_feedback = FeedbackUtil.formatGeneralFeedback(
 						Constants.AlertTypes.WARNING,
-						"Advertencias!",
+						"¡Advertencia!",
 						e.getMessage());
 				
 				try {
@@ -160,7 +163,9 @@ public class Signup implements Serializable {
     	if(_email == null || _email.trim().isEmpty()) {
     		_emailFeedback = FeedbackUtil.formatFieldFeedback("Requerido");
     	} else if(!ValidationUtil.isValidEmail(_email)) {
-    		_emailFeedback = FeedbackUtil.formatFieldFeedback("Invalido");
+    		_emailFeedback = FeedbackUtil.formatFieldFeedback("Inv&aacute;lido");
+    	} else if(ValidationUtil.exists(_email)) {
+    		_emailFeedback = FeedbackUtil.formatFieldFeedback("No&nbsp;disponible");
     	}
     	
 //    	if(_telephone == null || _telephone.trim().isEmpty()) {
@@ -176,7 +181,7 @@ public class Signup implements Serializable {
     	if(_nameFeedback != null || _emailFeedback != null 
     			|| _telephoneFeedback != null || _passwordFeedback != null) {
 	    	_feedback = FeedbackUtil.formatGeneralFeedback(Constants.AlertTypes.WARNING,
-					"Advertencias!",
+					"¡Advertencia!",
 					"Campos requeridos no fueron entrados o los valores son inv&aacute;lidos.");
     	}
     }

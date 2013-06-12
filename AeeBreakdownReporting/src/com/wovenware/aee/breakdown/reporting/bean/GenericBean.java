@@ -22,15 +22,17 @@ public class GenericBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	protected String _userEmail = null;
+	protected String _userName = null;
 	protected String _feedback = null;
 
-    // Email
-    public void setUserEmail(String userEmail) {
-    	_userEmail = userEmail;
-    }
-
+    // User Email
     public String getUserEmail() {
         return _userEmail;
+    }
+    
+    // User Name
+    public String getUserName() {
+        return _userName;
     }
     
     // Feedback
@@ -45,6 +47,8 @@ public class GenericBean implements Serializable {
     public boolean getOnLoad() {
     	_userEmail = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(
     			Constants.Session.USER_EMAIL);
+    	_userName = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(
+    			Constants.Session.USER_NAME);
     	
     	if(_userEmail == null) {
     		try {
@@ -55,5 +59,19 @@ public class GenericBean implements Serializable {
     	}
     	
     	return true;
+    }
+    
+    public void logout() {
+    	_feedback = null;
+    	
+    	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(
+				Constants.Session.USER_EMAIL);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(
+				Constants.Session.USER_NAME);
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("login.jsf");
+		} catch(Exception e) {
+			// Do nothing...
+		}
     }
 }

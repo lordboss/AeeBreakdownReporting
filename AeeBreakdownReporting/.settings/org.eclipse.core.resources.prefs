@@ -5,3 +5,6 @@ encoding//src/com/prepa/breakdown/ws/BreakdownReport.java=UTF-8
 encoding//src/com/prepa/breakdown/ws/BreakdownReportLocator.java=UTF-8
 encoding//src/com/prepa/breakdown/ws/BreakdownReportPortType.java=UTF-8
 encoding//src/com/prepa/breakdown/ws/BreakdownReportSoap11BindingStub.java=UTF-8
+encoding//src/com/wovenware/aee/breakdown/reporting/bean/Login.java=UTF-8
+encoding//src/com/wovenware/aee/breakdown/reporting/bean/Main.java=UTF-8
+encoding//src/com/wovenware/aee/breakdown/reporting/bean/Signup.java=UTF-8

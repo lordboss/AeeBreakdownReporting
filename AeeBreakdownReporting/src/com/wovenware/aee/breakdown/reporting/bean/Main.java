@@ -362,7 +362,7 @@ public class Main extends GenericBean {
 	    	
 	    	_feedback = FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.SUCCESS,
-					"Confirmaci&oacute;n!",
+					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _newName + "</strong></i> fue actualizada exitosamente.");
 	    	
 	    	_areaToDelete = null;
@@ -372,7 +372,7 @@ public class Main extends GenericBean {
     	} catch(Exception e) {
     		_feedback = FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.ERROR,
-					"Error!",
+					"¡Error!",
 					"El &aacute;rea <i><strong>" + _areaToUpdate + "</strong></i> no pudo ser actualizada en este momento. Por favor intente mas tarde.");
     		
     		try {
@@ -411,7 +411,7 @@ public class Main extends GenericBean {
 	    	
 	    	_feedback = FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.SUCCESS,
-					"Confirmaci&oacute;n!",
+					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _areaToDelete + "</strong></i> fue removida exitosamente.");
 	    	
 	    	_areaToDelete = null;
@@ -421,7 +421,7 @@ public class Main extends GenericBean {
     	} catch(Exception e) {
     		_feedback = FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.ERROR,
-					"Error!",
+					"¡Error!",
 					"El &aacute;rea <i><strong>" + _name + "</strong></i> no pudo ser removida en este momento. Por favor intente mas tarde.");
     		
     		try {
@@ -471,7 +471,7 @@ public class Main extends GenericBean {
 	    	
 	    	_feedback = FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.SUCCESS,
-					"Confirmaci&oacute;n!",
+					"¡Confirmaci&oacute;n!",
 					"El &aacute;rea <i><strong>" + _name + "</strong></i> fue a&ntilde;adida exitosamente.");
 	    	
 	    	_cityList = loadCityList();
@@ -480,7 +480,7 @@ public class Main extends GenericBean {
     	} catch(Exception e) {
     		_feedback = FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.ERROR,
-					"Error!",
+					"¡Error!",
 					"El &aacute;rea <i><strong>" + _name + "</strong></i> no pudo ser a&ntilde;adida en este momento. Por favor intente mas tarde.");
     		
     		try {

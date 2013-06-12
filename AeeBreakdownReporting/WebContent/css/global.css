@@ -20,6 +20,17 @@
 	color: #FDB817;	
 }
 
+.page-top .options
+{
+	text-align: right;
+}
+
+.page-top .options a
+{
+	text-decoration: none;
+	color: #FDB817;
+}
+
 .page-bottom
 {
 	border-top: 1px solid #DDDDDD;

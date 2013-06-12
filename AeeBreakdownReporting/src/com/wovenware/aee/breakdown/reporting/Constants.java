@@ -11,16 +11,13 @@ public class Constants {
 	
 	public static class Bundles
 	{
-//		public static final String MESSAGES = "com.wovenware.aee.breakdown.reporting.MessageBundle";
-//		public static final String ERRORS = "com.wovenware.aee.breakdown.reporting.ErrorBundle";
 		public static final String ENVIRONMENT = "com.wovenware.aee.breakdown.reporting.Environment";
-//		public static final String CONTENT = "com.wovenware.aee.breakdown.reporting.ContentBundle";
-		public static final String USER_EMAIL = "UserEmail";
 	}
 	
 	public static class Session
 	{
 		public static final String USER_EMAIL = "UserEmail";
+		public static final String USER_NAME = "UserName";
 	}
 	
 	public static class Services
