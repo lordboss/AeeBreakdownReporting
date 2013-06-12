@@ -43,3 +43,20 @@ CREATE TABLE `city_areas` (
   PRIMARY KEY (`CITY`,`AREA`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
+CREATE
+-- DEFINER=`root`@`localhost`
+TRIGGER `aeebk`.`bks_reported_AINS`
+AFTER INSERT ON `aeebk`.`bks_reported`
+FOR EACH ROW
+-- Edit trigger body code below this line. Do not edit lines above this one
+
+insert into aeebk.city_areas (
+	select ra.CITY, ra.AREA
+	from aeebk.bks_reported ra
+	left join aeebk.city_areas ca
+		on ca.CITY = ra.CITY
+			and ca.AREA = ra.AREA
+	where ca.CITY is null
+	group by ra.CITY, ra.AREA
+)
+$$
