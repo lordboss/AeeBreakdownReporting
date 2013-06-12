@@ -194,7 +194,8 @@ public class Main extends GenericBean {
 			userAreas.append(FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.WARNING,
 					"Atenci&oacute;n!",
-					"Usted no tiene ning&uacute;n &aacute;rea relevante configurada en este momento. Por favor utilize la forma de la derecha para a&ntilde;adir las &aacute;reas relevantes para usted."));
+					"Usted no tiene ning&uacute;n &aacute;rea relevante configurada en este momento. Por favor utilize la forma de la derecha para a&ntilde;adir las &aacute;reas relevantes para usted.",
+					false));
 	    	
 		}
 		
