@@ -12,7 +12,6 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import javax.management.Notification;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,6 +42,7 @@ public class BreakdownServlet extends HttpServlet
 	// Constants...
 	private static final long serialVersionUID = 2717677766209642755L;
 	private static final String ID_DELIMITER = "||";
+	private static final String APP_NAME = "TeNotifi.co";
 	
 	// Attributes...
 	protected static Integer TIMER_LOCK = new Integer(1);
@@ -228,8 +228,17 @@ public class BreakdownServlet extends HttpServlet
 										processedKeys.add( key );
 										
 										// If not yet reported, push raised event and add to list.
-										bnu.push( conn, bksReportedTO, "Averias AEE:  Averia reportada." );
-										conn.commit();
+										bnu.push( conn, bksReportedTO, APP_NAME + " - Averia reportada"
+												, "Saludos,<br/>" +
+												  "<br/>" +
+												  "Se ha reportado una aver&iacute;a en el &aacute;rea: <b>" + BreakdownNotifierUtil.ZONE_PLACEHOLDER + "</b><br/>" +
+												  "<br/>" + 
+												  "Considere tomar medidas pertinentes.<br/>" +
+												  "<br/>" +
+												  "Atentamente,<br/>" +
+												  "-" + APP_NAME
+												  );
+										conn.commit(); 
 									}
 									
 									bksReportedDAO.create( bksReportedTO );
@@ -247,7 +256,14 @@ public class BreakdownServlet extends HttpServlet
 						bksReportedTO = prevMap.get( key );
 						
 						// Push cleared event						
-						bnu.push( conn, bksReportedTO, "Averias AEE:  No hay mas averias reportadas." );
+						bnu.push( conn, bksReportedTO, APP_NAME + " - Cese de averia reportada",
+								  "Saludos,<br/>" +
+								  "<br/>" +
+								  "Ya no se reporta aver&iacute;a en el &aacute;rea: <b>" + BreakdownNotifierUtil.ZONE_PLACEHOLDER + "</b><br/>" +
+								  "<br/>" +
+								  "Atentamente,<br/>" +
+								  "-" + APP_NAME
+								  );
 						conn.commit();
 						
 						// and move to archive
