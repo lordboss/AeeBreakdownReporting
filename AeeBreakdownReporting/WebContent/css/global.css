@@ -5,9 +5,19 @@
 	padding: 10px 0;
 }
 
-.page-top span
+.page-top .normal
 {
-	color: #faa732;	
+	color: inherit;	
+}
+
+.page-top .ww-gray
+{
+	color: #7C8079;	
+}
+
+.page-top .ww-yellow
+{
+	color: #FDB817;	
 }
 
 .page-bottom

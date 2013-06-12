@@ -126,9 +126,6 @@ public class Main extends GenericBean {
 			for(UserAreasTO userAreasTO : results) {
 				i++;
 				
-				userAreasTO.setStatus("Averia Reportada");
-				userAreasTO.setRptdLastUpdateTs("06/12/2013 10:00 am");
-				
 				boolean hasBreakdown = userAreasTO.getStatus() != null;
 				
 				userAreas.append("<div class=\"row-fluid item\">");
