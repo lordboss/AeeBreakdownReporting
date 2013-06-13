@@ -653,8 +653,6 @@ public class Main extends GenericBean {
 	    	loadUserAreas(true);
 	    	loadCityList(true);
 	    	loadAreaList(true);
-	    	
-	    	_name = null;
     	} catch(Exception e) {
     		_feedback = FeedbackUtil.formatGeneralFeedback(
 					Constants.AlertTypes.ERROR,
@@ -669,6 +667,8 @@ public class Main extends GenericBean {
     			// Do nothing...
     		}
     	} finally {
+    		_name = null;
+    		
     		try {
     			if(connection != null && !connection.isClosed()) {
     				connection.close();
