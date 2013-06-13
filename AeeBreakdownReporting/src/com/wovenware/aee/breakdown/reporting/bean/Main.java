@@ -518,50 +518,60 @@ public class Main extends GenericBean {
     public void updateArea() {
     	_feedback = null;
     	
-    	Connection connection = null;
-    	
-    	try {
-    		connection = ConnectionUtil.createConnection(
-    				Constants.Services.JNDI_JDBC_APP, false);
-    		
-    		Bk2UsersDAO bk2UsersDAO = new Bk2UsersDAO(connection);
-	    	bk2UsersDAO.update(_userEmail, _areaToUpdate, _newName);
+    	if(_newName != null && !_newName.trim().isEmpty()) {
+	    	Connection connection = null;
+	    	
+	    	try {
+	    		connection = ConnectionUtil.createConnection(
+	    				Constants.Services.JNDI_JDBC_APP, false);
 	    		
-	    	connection.commit();
-	    	
-	    	_feedback = FeedbackUtil.formatGeneralFeedback(
-					Constants.AlertTypes.SUCCESS,
-					"¡Confirmaci&oacute;n!",
-					"El &aacute;rea <i><strong>" + _newName + "</strong></i> fue actualizada exitosamente.");
-	    	
-	    	updateDashboard();
-	    	loadUserAreas(true);
-	    	
-	    	_areaToDelete = null;
-	    	_name = null;
-    	} catch(Exception e) {
+	    		_newName = _newName.replace("'", "");
+	    		_newName = _newName.replace("\"", "");
+	    		
+	    		Bk2UsersDAO bk2UsersDAO = new Bk2UsersDAO(connection);
+		    	bk2UsersDAO.update(_userEmail, _areaToUpdate, _newName);
+		    		
+		    	connection.commit();
+		    	
+		    	_feedback = FeedbackUtil.formatGeneralFeedback(
+						Constants.AlertTypes.SUCCESS,
+						"¡Confirmaci&oacute;n!",
+						"El &aacute;rea <i><strong>" + _newName + "</strong></i> fue actualizada exitosamente.");
+		    	
+		    	updateDashboard();
+		    	loadUserAreas(true);
+		    	
+		    	_areaToDelete = null;
+		    	_name = null;
+	    	} catch(Exception e) {
+	    		_feedback = FeedbackUtil.formatGeneralFeedback(
+						Constants.AlertTypes.ERROR,
+						"¡Error!",
+						"El &aacute;rea <i><strong>" + _areaToUpdate + "</strong></i> no pudo ser actualizada en este momento. Por favor intente mas tarde.");
+	    		
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.rollback();
+	    			}
+	    		} catch (Exception e1) {
+	    			// Do nothing...
+	    		}
+	    	} finally {
+	    		try {
+	    			if(connection != null && !connection.isClosed()) {
+	    				connection.close();
+	    			}
+	    		} catch (Exception e) {
+	    			// Do nothing...
+	    		} finally {
+	    			connection = null;
+	    		}
+	    	}
+    	} else {
     		_feedback = FeedbackUtil.formatGeneralFeedback(
-					Constants.AlertTypes.ERROR,
-					"¡Error!",
-					"El &aacute;rea <i><strong>" + _areaToUpdate + "</strong></i> no pudo ser actualizada en este momento. Por favor intente mas tarde.");
-    		
-    		try {
-    			if(connection != null && !connection.isClosed()) {
-    				connection.rollback();
-    			}
-    		} catch (Exception e1) {
-    			// Do nothing...
-    		}
-    	} finally {
-    		try {
-    			if(connection != null && !connection.isClosed()) {
-    				connection.close();
-    			}
-    		} catch (Exception e) {
-    			// Do nothing...
-    		} finally {
-    			connection = null;
-    		}
+					Constants.AlertTypes.WARNING,
+					"¡Advertencia!",
+					"El &aacute;rea <i><strong>" + _areaToUpdate + "</strong></i> no pudo ser actualizada. El nombre/alias es invalido.");
     	}
     }
     
@@ -636,6 +646,9 @@ public class Main extends GenericBean {
     		if(_name == null || _name.trim().isEmpty()) {
     			_name = _area + ", " + _city;
     		}
+    		
+    		_name = _name.replace("'", "");
+    		_name = _name.replace("\"", "");
     		
     		bk2UsersTO.setName(_name);
 	    		
